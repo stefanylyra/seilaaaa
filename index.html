@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alimente a Caveira</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-top: 20px;
+      text-align: center;
+      min-height: 60px;
+      transition: color 0.3s;
+    }
+
+    /* Área central da caveira */
+    .skull-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: auto 0;
+    }
+
+    .skull {
+      font-size: 8rem;
+      transition: transform 0.3s ease, filter 0.3s ease;
+      cursor: default;
+    }
+
+    .skull.drop-hover {
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 15px #fff);
+    }
+
+    /* Carrossel / Lista de Comidas */
+    .food-section {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .food-section.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .arrow-btn {
+      background: transparent;
+      border: 2px solid #fff;
+      color: #fff;
+      font-size: 1.5rem;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .arrow-btn:hover {
+      background: #333;
+    }
+
+    .carousel-wrapper {
+      width: 120px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .food-item {
+      min-width: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      font-size: 4rem;
+    }
+
+    .food-item:active {
+      cursor: grabbing;
+    }
+
+    .food-name {
+      font-size: 0.9rem;
+      color: #aaa;
+      margin-top: 5px;
+    }
+
+    /* Imagem de Susto (Tela Cheia) */
+    .jumpscare {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #000;
+      z-index: 9999;
+    }
+
+    .jumpscare img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .jumpscare.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="title">Alimente a caveira</h1>
+
+  <div class="skull-container" id="drop-zone">
+    <div class="skull" id="skull">💀</div>
+  </div>
+
+  <div class="food-section" id="food-section">
+    <button class="arrow-btn" id="prev-btn">&#10094;</button>
+
+    <div class="carousel-wrapper">
+      <div class="carousel-track" id="carousel-track">
+        
+        <div class="food-item" draggable="true" data-type="good" id="item-cookie">
+          <span>🍪</span>
+          <span class="food-name">Cookie</span>
+        </div>
+
+        <div class="food-item" draggable="true" data-type="bad" id="item-coco">
+          <span>💩</span>
+          <span class="food-name">Cocô</span>
+        </div>
+
+        <div class="food-item" draggable="true" data-type="good" id="item-pacoca">
+          <span>🥜</span>
+          <span class="food-name">Paçoca</span>
+        </div>
+
+      </div>
+    </div>
+
+    <button class="arrow-btn" id="next-btn">&#10095;</button>
+  </div>
+
+  <div class="jumpscare" id="jumpscare-screen">
+    <img src="https://preview.redd.it/make-this-image-scarier-v0-qwbyxq6uhd0c1.jpg?width=640&crop=smart&auto=webp&s=f45c8f2bdbaf7adf57d3e28709f4a0fb72b5f5a7" alt="Susto" />
+  </div>
+
+  <script>
+    const title = document.getElementById('title');
+    const skull = document.getElementById('skull');
+    const dropZone = document.getElementById('drop-zone');
+    const foodSection = document.getElementById('food-section');
+    const carouselTrack = document.getElementById('carousel-track');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const jumpscare = document.getElementById('jumpscare-screen');
+
+    let currentIndex = 0;
+    const totalItems = 3;
+
+    // 1. Mostrar as comidas após 4 segundos
+    setTimeout(() => {
+      foodSection.classList.add('visible');
+    }, 4000);
+
+    // 2. Navegação dos botões de seta
+    function updateCarousel() {
+      carouselTrack.style.transform = `translateX(-${currentIndex * 120}px)`;
+    }
+
+    prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalItems - 1;
+      updateCarousel();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex < totalItems - 1) ? currentIndex + 1 : 0;
+      updateCarousel();
+    });
+
+    // 3. Suporte a Drag and Drop (Arrastar e Soltar)
+    const foodItems = document.querySelectorAll('.food-item');
+
+    foodItems.forEach(item => {
+      item.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text/plain', item.dataset.type);
+      });
+
+      // Suporte para clique simples no celular ou computador
+      item.addEventListener('click', () => {
+        feedSkull(item.dataset.type);
+      });
+    });
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      skull.classList.add('drop-hover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      skull.classList.remove('drop-hover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      skull.classList.remove('drop-hover');
+      const itemType = e.dataTransfer.getData('text/plain');
+      if (itemType) {
+        feedSkull(itemType);
+      }
+    });
+
+    // 4. Lógica de Alimentar a Caveira
+    function feedSkull(type) {
+      if (type === 'good') {
+        title.innerText = 'Pica boy';
+        skull.innerText = '😄'; // Caveira/Rosto feliz
+        foodSection.style.display = 'none';
+      } else if (type === 'bad') {
+        title.innerText = 'Seu desumano, agora irei pegar tudo que é seu';
+        foodSection.style.display = 'none';
+        
+        // Exibe a imagem assustadora após um leve delay
+        setTimeout(() => {
+          jumpscare.classList.add('active');
+        }, 800);
+      }
+    }
+  </script>
+</body>
+</html>
