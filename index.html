@@ -64,6 +64,7 @@
       justify-content: center;
       gap: 15px;
       margin-bottom: 30px;
+      min-height: 120px;
     }
 
     .food-section.visible {
@@ -91,10 +92,10 @@
     }
 
     .carousel-wrapper {
-      width: 120px;
+      width: 140px;
       overflow: hidden;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
     }
 
     .carousel-track {
@@ -103,7 +104,8 @@
     }
 
     .food-item {
-      min-width: 120px;
+      width: 140px;
+      flex-shrink: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -120,6 +122,30 @@
       font-size: 0.9rem;
       color: #aaa;
       margin-top: 5px;
+    }
+
+    /* Botão de Voltar */
+    .reset-btn {
+      display: none;
+      background: #fff;
+      color: #000;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 25px;
+      cursor: pointer;
+      margin-bottom: 40px;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .reset-btn:hover {
+      transform: scale(1.05);
+      background: #ddd;
+    }
+
+    .reset-btn.visible {
+      display: block;
     }
 
     /* Imagem de Susto (Tela Cheia) */
@@ -152,6 +178,9 @@
   <div class="skull-container" id="drop-zone">
     <div class="skull" id="skull">💀</div>
   </div>
+
+  <!-- Botão de Voltar / Alimentar Novamente -->
+  <button class="reset-btn" id="reset-btn">🔄 Alimentar novamente</button>
 
   <div class="food-section" id="food-section">
     <button class="arrow-btn" id="prev-btn">&#10094;</button>
@@ -192,6 +221,7 @@
     const carouselTrack = document.getElementById('carousel-track');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
+    const resetBtn = document.getElementById('reset-btn');
     const jumpscare = document.getElementById('jumpscare-screen');
 
     let currentIndex = 0;
@@ -204,7 +234,7 @@
 
     // 2. Navegação dos botões de seta
     function updateCarousel() {
-      carouselTrack.style.transform = `translateX(-${currentIndex * 120}px)`;
+      carouselTrack.style.transform = `translateX(-${currentIndex * 140}px)`;
     }
 
     prevBtn.addEventListener('click', () => {
@@ -217,7 +247,7 @@
       updateCarousel();
     });
 
-    // 3. Suporte a Drag and Drop (Arrastar e Soltar)
+    // 3. Suporte a Drag and Drop (Arrastar e Soltar) + Clique
     const foodItems = document.querySelectorAll('.food-item');
 
     foodItems.forEach(item => {
@@ -225,7 +255,6 @@
         e.dataTransfer.setData('text/plain', item.dataset.type);
       });
 
-      // Suporte para clique simples no celular ou computador
       item.addEventListener('click', () => {
         feedSkull(item.dataset.type);
       });
@@ -253,18 +282,26 @@
     function feedSkull(type) {
       if (type === 'good') {
         title.innerText = 'Pica boy';
-        skull.innerText = '😄'; // Caveira/Rosto feliz
+        skull.innerText = '😄';
         foodSection.style.display = 'none';
+        resetBtn.classList.add('visible');
       } else if (type === 'bad') {
         title.innerText = 'Seu desumano, agora irei pegar tudo que é seu';
         foodSection.style.display = 'none';
         
-        // Exibe a imagem assustadora após um leve delay
         setTimeout(() => {
           jumpscare.classList.add('active');
         }, 800);
       }
     }
+
+    // 5. Botão Voltar/Resetar
+    resetBtn.addEventListener('click', () => {
+      title.innerText = 'Alimente a caveira';
+      skull.innerText = '💀';
+      resetBtn.classList.remove('visible');
+      foodSection.style.display = 'flex';
+    });
   </script>
 </body>
 </html>
