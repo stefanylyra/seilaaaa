@@ -13,7 +13,7 @@
     }
 
     body {
-      background-color: #000;
+      background-color: #0e0d0c; /* Cor exata do fundo da imagem da caveira */
       color: #fff;
       font-family: 'Arial', sans-serif;
       min-height: 100vh;
@@ -43,15 +43,17 @@
       margin: auto 0;
     }
 
-    .skull {
-      font-size: 8rem;
+    .skull-img {
+      width: 250px;
+      height: auto;
+      max-width: 80vw;
       transition: transform 0.3s ease, filter 0.3s ease;
       cursor: default;
     }
 
-    .skull.drop-hover {
-      transform: scale(1.2);
-      filter: drop-shadow(0 0 15px #fff);
+    .skull-container.drop-hover .skull-img {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
     }
 
     /* Carrossel / Lista de Comidas */
@@ -176,7 +178,7 @@
   <h1 id="title">Alimente a caveira</h1>
 
   <div class="skull-container" id="drop-zone">
-    <div class="skull" id="skull">💀</div>
+    <img src="https://cdn.11.vuzi.com.br/goquadros/product/293701.webp" alt="Caveira" class="skull-img" id="skull-img" />
   </div>
 
   <!-- Botão de Voltar / Alimentar Novamente -->
@@ -215,7 +217,6 @@
 
   <script>
     const title = document.getElementById('title');
-    const skull = document.getElementById('skull');
     const dropZone = document.getElementById('drop-zone');
     const foodSection = document.getElementById('food-section');
     const carouselTrack = document.getElementById('carousel-track');
@@ -262,16 +263,16 @@
 
     dropZone.addEventListener('dragover', (e) => {
       e.preventDefault();
-      skull.classList.add('drop-hover');
+      dropZone.classList.add('drop-hover');
     });
 
     dropZone.addEventListener('dragleave', () => {
-      skull.classList.remove('drop-hover');
+      dropZone.classList.remove('drop-hover');
     });
 
     dropZone.addEventListener('drop', (e) => {
       e.preventDefault();
-      skull.classList.remove('drop-hover');
+      dropZone.classList.remove('drop-hover');
       const itemType = e.dataTransfer.getData('text/plain');
       if (itemType) {
         feedSkull(itemType);
@@ -282,7 +283,6 @@
     function feedSkull(type) {
       if (type === 'good') {
         title.innerText = 'Pica boy';
-        skull.innerText = '😄';
         foodSection.style.display = 'none';
         resetBtn.classList.add('visible');
       } else if (type === 'bad') {
@@ -298,7 +298,6 @@
     // 5. Botão Voltar/Resetar
     resetBtn.addEventListener('click', () => {
       title.innerText = 'Alimente a caveira';
-      skull.innerText = '💀';
       resetBtn.classList.remove('visible');
       foodSection.style.display = 'flex';
     });
