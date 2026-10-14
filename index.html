@@ -1,306 +1,1653 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Alimente a Caveira</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Conheça Nossa Equipe | Opus Eventos</title>
+  <meta name="description" content="Conheça os profissionais da Opus Eventos, filtre habilidades e consulte datas disponíveis para seu evento.">
+
   <style>
+    :root {
+      --preto: #171715;
+      --preto-suave: #24231f;
+      --dourado: #b99a59;
+      --dourado-claro: #e0cc9c;
+      --fundo: #f8f6f1;
+      --branco: #ffffff;
+      --texto: #292823;
+      --cinza: #77756e;
+      --borda: #e6e0d5;
+      --verde: #427b58;
+    }
+
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      user-select: none;
+      box-sizing: border-box;
     }
 
     body {
-      background-color: #0e0d0c; /* Cor exata do fundo da imagem da caveira */
-      color: #fff;
-      font-family: 'Arial', sans-serif;
-      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--fundo);
+      color: var(--texto);
+      line-height: 1.5;
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* CABEÇALHO */
+
+    header {
+      background: var(--preto);
+      color: var(--branco);
+      border-bottom: 2px solid var(--dourado);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px 24px;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      padding: 20px;
-      overflow: hidden;
+      gap: 20px;
+    }
+
+    .logo {
+      font-family: Georgia, serif;
+      font-size: 25px;
+      letter-spacing: 3px;
+      color: var(--dourado-claro);
+    }
+
+    .logo small {
+      display: block;
+      font-family: Arial, sans-serif;
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-align: center;
+      color: #e8e4db;
+    }
+
+    .back-link {
+      color: #e9e5dc;
+      font-size: 13px;
+    }
+
+    .back-link:hover {
+      color: var(--dourado-claro);
+    }
+
+    /* INTRODUÇÃO */
+
+    .intro {
+      max-width: 1200px;
+      margin: auto;
+      padding: 44px 24px 28px;
+    }
+
+    .eyebrow {
+      color: #94783e;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 11px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .intro h1 {
+      color: var(--preto);
+      font-family: Georgia, serif;
+      font-size: clamp(29px, 4vw, 40px);
+      font-weight: normal;
+      margin-bottom: 10px;
+    }
+
+    .intro p {
+      color: var(--cinza);
+      max-width: 580px;
+      font-size: 14px;
+    }
+
+    /* FILTROS */
+
+    .main-container {
+      max-width: 1200px;
+      padding: 0 24px 55px;
+      margin: auto;
+    }
+
+    .filters {
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-radius: 10px;
+      padding: 22px;
+      margin-bottom: 25px;
+    }
+
+    .filters-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .filters-heading h2 {
+      font-size: 16px;
+      color: var(--preto);
+    }
+
+    .clear-button {
+      border: none;
+      background: none;
+      color: #8c713b;
+      font-size: 12px;
+      text-decoration: underline;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .filter-field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .filter-field label {
+      font-size: 12px;
+      font-weight: bold;
+      color: #45433d;
+    }
+
+    .filter-field input,
+    .filter-field select {
+      width: 100%;
+      min-width: 0;
+      padding: 11px 10px;
+      border: 1px solid var(--borda);
+      border-radius: 5px;
+      background: #fff;
+      color: var(--texto);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .filter-field input:focus,
+    .filter-field select:focus {
+      border-color: var(--dourado);
+    }
+
+    .search-field {
+      grid-column: span 2;
+    }
+
+    .filter-note {
+      font-size: 11px;
+      color: var(--cinza);
+      margin-top: 14px;
+    }
+
+    /* LISTAGEM */
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 17px;
+    }
+
+    .results-header h2 {
+      font-size: 17px;
+      color: var(--preto);
+    }
+
+    .results-count {
+      color: var(--cinza);
+      font-size: 12px;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .person-card {
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-radius: 9px;
+      padding: 24px 16px 17px;
+      text-align: center;
+      min-width: 0;
+      transition: border-color 0.2s;
+    }
+
+    .person-card:hover {
+      border-color: var(--dourado);
+    }
+
+    .photo-wrap {
+      width: 112px;
+      height: 112px;
+      margin: 0 auto 13px;
       position: relative;
     }
 
-    h1 {
-      font-size: 2rem;
-      margin-top: 20px;
-      text-align: center;
-      min-height: 60px;
-      transition: color 0.3s;
-    }
-
-    /* Área central da caveira */
-    .skull-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin: auto 0;
-    }
-
-    .skull-img {
-      width: 250px;
-      height: auto;
-      max-width: 80vw;
-      transition: transform 0.3s ease, filter 0.3s ease;
-      cursor: default;
-    }
-
-    .skull-container.drop-hover .skull-img {
-      transform: scale(1.1);
-      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
-    }
-
-    /* Carrossel / Lista de Comidas */
-    .food-section {
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.8s ease, visibility 0.8s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 30px;
-      min-height: 120px;
-    }
-
-    .food-section.visible {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .arrow-btn {
-      background: transparent;
-      border: 2px solid #fff;
-      color: #fff;
-      font-size: 1.5rem;
+    .person-photo {
+      display: block;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
+      object-fit: cover;
+      border: 3px solid #eee5d1;
+      background: #e8e3d8;
+    }
+
+    .availability-dot {
+      position: absolute;
+      right: 3px;
+      bottom: 4px;
+      width: 17px;
+      height: 17px;
+      background: var(--verde);
+      border: 3px solid white;
+      border-radius: 50%;
+    }
+
+    .person-card h3 {
+      font-size: 16px;
+      margin-bottom: 3px;
+      color: var(--preto);
+    }
+
+    .person-role {
+      color: var(--cinza);
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .skill-tags {
       display: flex;
-      align-items: center;
+      flex-wrap: wrap;
+      gap: 5px;
       justify-content: center;
+      min-height: 27px;
+      margin-bottom: 16px;
+    }
+
+    .skill-tag {
+      font-size: 10px;
+      background: #f3efe6;
+      color: #685630;
+      padding: 4px 7px;
+      border-radius: 3px;
+    }
+
+    .profile-button {
+      width: 100%;
+      border: 1px solid var(--dourado);
+      border-radius: 5px;
+      padding: 10px;
+      background: var(--preto);
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
       transition: background 0.2s;
     }
 
-    .arrow-btn:hover {
-      background: #333;
+    .profile-button:hover {
+      background: #37352f;
     }
 
-    .carousel-wrapper {
-      width: 140px;
-      overflow: hidden;
-      display: flex;
-      justify-content: flex-start;
-    }
-
-    .carousel-track {
-      display: flex;
-      transition: transform 0.3s ease-in-out;
-    }
-
-    .food-item {
-      width: 140px;
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: grab;
-      font-size: 4rem;
-    }
-
-    .food-item:active {
-      cursor: grabbing;
-    }
-
-    .food-name {
-      font-size: 0.9rem;
-      color: #aaa;
-      margin-top: 5px;
-    }
-
-    /* Botão de Voltar */
-    .reset-btn {
+    .empty-state {
       display: none;
-      background: #fff;
-      color: #000;
-      border: none;
-      padding: 12px 24px;
-      font-size: 1rem;
-      font-weight: bold;
-      border-radius: 25px;
-      cursor: pointer;
-      margin-bottom: 40px;
-      transition: transform 0.2s, background 0.2s;
+      text-align: center;
+      padding: 45px 15px;
+      background: white;
+      border: 1px solid var(--borda);
+      border-radius: 8px;
+      color: var(--cinza);
     }
 
-    .reset-btn:hover {
-      transform: scale(1.05);
-      background: #ddd;
+    .empty-state h3 {
+      color: var(--preto);
+      margin-bottom: 7px;
     }
 
-    .reset-btn.visible {
+    /* SELEÇÃO DE PROFISSIONAIS */
+
+    .selection-bar {
+      display: none;
+      position: sticky;
+      bottom: 12px;
+      z-index: 5;
+      max-width: 700px;
+      margin: 25px auto 0;
+      background: var(--preto);
+      color: white;
+      border: 1px solid var(--dourado);
+      border-radius: 8px;
+      padding: 15px 18px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 5px 25px #0002;
+    }
+
+    .selection-bar p {
+      font-size: 13px;
+    }
+
+    .selection-bar small {
       display: block;
+      color: #d0c9ba;
+      font-size: 11px;
     }
 
-    /* Imagem de Susto (Tela Cheia) */
-    .jumpscare {
+    .selection-button {
+      background: var(--dourado);
+      color: #171715;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 13px;
+      font-size: 12px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .selected-card {
+      border-color: var(--dourado);
+      box-shadow: inset 0 0 0 1px var(--dourado);
+    }
+
+    /* RODAPÉ */
+
+    footer {
+      background: var(--preto);
+      color: #d5d0c6;
+      text-align: center;
+      padding: 25px 20px;
+      font-size: 11px;
+    }
+
+    footer strong {
+      color: var(--dourado-claro);
+      font-family: Georgia, serif;
+      letter-spacing: 2px;
+    }
+
+    /* MODAL DO PERFIL */
+
+    .modal {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: #000;
-      z-index: 9999;
+      inset: 0;
+      z-index: 20;
+      background: rgba(15, 15, 13, 0.72);
+      padding: 18px;
+      overflow-y: auto;
+      align-items: flex-start;
+      justify-content: center;
     }
 
-    .jumpscare img {
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-content {
+      position: relative;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      max-width: 690px;
+      margin: auto;
+      background: var(--fundo);
+      border-radius: 10px;
+      padding: 27px;
     }
 
-    .jumpscare.active {
-      display: block;
+    .close-modal {
+      position: absolute;
+      right: 16px;
+      top: 13px;
+      border: none;
+      background: none;
+      font-size: 27px;
+      color: #777;
+      line-height: 1;
+    }
+
+    .profile-top {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 10px 25px 23px 0;
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .modal-photo {
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--dourado-claro);
+      flex-shrink: 0;
+    }
+
+    .profile-top h2 {
+      font-family: Georgia, serif;
+      font-size: 25px;
+      color: var(--preto);
+      font-weight: normal;
+      margin-bottom: 4px;
+    }
+
+    .profile-meta {
+      color: var(--cinza);
+      font-size: 12px;
+    }
+
+    .profile-description {
+      font-size: 13px;
+      color: #5f5c54;
+      margin-top: 10px;
+    }
+
+    .modal-section {
+      padding-top: 22px;
+    }
+
+    .modal-section h3 {
+      font-size: 15px;
+      margin-bottom: 5px;
+      color: var(--preto);
+    }
+
+    .modal-section > p {
+      color: var(--cinza);
+      font-size: 12px;
+      margin-bottom: 13px;
+    }
+
+    .profile-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .profile-skills span {
+      border: 1px solid var(--borda);
+      background: white;
+      padding: 7px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    /* CALENDÁRIO */
+
+    .calendar-box {
+      background: white;
+      border: 1px solid var(--borda);
+      border-radius: 7px;
+      padding: 15px;
+    }
+
+    .calendar-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      gap: 8px;
+    }
+
+    .calendar-top strong {
+      font-size: 13px;
+      color: var(--preto);
+      text-transform: capitalize;
+    }
+
+    .month-button {
+      background: white;
+      border: 1px solid var(--borda);
+      border-radius: 4px;
+      padding: 5px 10px;
+      color: var(--texto);
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 5px;
+      text-align: center;
+    }
+
+    .weekday {
+      color: var(--cinza);
+      font-size: 10px;
+      padding-bottom: 6px;
+    }
+
+    .calendar-day {
+      border: 1px solid transparent;
+      border-radius: 4px;
+      min-height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      background: #f4f2ed;
+      color: #aaa69c;
+    }
+
+    .calendar-day.available {
+      background: #e8f2e9;
+      color: #27623c;
+      border-color: #c5dfca;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .calendar-day.available:hover,
+    .calendar-day.available.chosen {
+      background: var(--verde);
+      color: white;
+      border-color: var(--verde);
+    }
+
+    .calendar-day.past {
+      opacity: 0.4;
+    }
+
+    .calendar-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 13px;
+      font-size: 10px;
+      color: var(--cinza);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .legend-color {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+    }
+
+    .date-message {
+      color: var(--verde);
+      font-size: 12px;
+      margin-top: 12px;
+      min-height: 18px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .modal-actions button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .confirm-button {
+      background: var(--preto);
+      border: 1px solid var(--dourado);
+      color: white;
+    }
+
+    .cancel-button {
+      background: white;
+      border: 1px solid var(--borda);
+      color: var(--texto);
+    }
+
+    .notice {
+      font-size: 10px;
+      color: var(--cinza);
+      margin-top: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .team-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .filter-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .header-inner {
+        padding: 16px;
+      }
+
+      .logo {
+        font-size: 21px;
+      }
+
+      .back-link {
+        font-size: 11px;
+        text-align: right;
+      }
+
+      .intro {
+        padding: 30px 17px 23px;
+      }
+
+      .main-container {
+        padding: 0 14px 35px;
+      }
+
+      .filters {
+        padding: 15px;
+      }
+
+      .filter-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 13px 10px;
+      }
+
+      .search-field {
+        grid-column: span 2;
+      }
+
+      .team-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 11px;
+      }
+
+      .person-card {
+        padding: 18px 10px 12px;
+      }
+
+      .photo-wrap {
+        width: 86px;
+        height: 86px;
+      }
+
+      .person-card h3 {
+        font-size: 14px;
+      }
+
+      .person-role {
+        font-size: 11px;
+      }
+
+      .skill-tag {
+        font-size: 9px;
+      }
+
+      .profile-button {
+        padding: 10px 5px;
+      }
+
+      .modal {
+        padding: 8px;
+      }
+
+      .modal-content {
+        padding: 20px 15px;
+      }
+
+      .modal-photo {
+        width: 78px;
+        height: 78px;
+      }
+
+      .profile-top {
+        gap: 13px;
+      }
+
+      .profile-top h2 {
+        font-size: 21px;
+      }
+
+      .calendar-box {
+        padding: 10px;
+      }
+
+      .calendar-grid {
+        gap: 3px;
+      }
+
+      .calendar-day {
+        min-height: 31px;
+        font-size: 11px;
+      }
+
+      .selection-bar {
+        padding: 12px;
+      }
+
+      .selection-bar p {
+        font-size: 11px;
+      }
+
+      .selection-button {
+        font-size: 11px;
+        padding: 10px;
+      }
     }
   </style>
 </head>
+
 <body>
 
-  <h1 id="title">Alimente a caveira</h1>
+  <header>
+    <div class="header-inner">
+      <a href="#" class="logo">
+        OPUS
+        <small>EVENTOS</small>
+      </a>
 
-  <div class="skull-container" id="drop-zone">
-    <img src="https://cdn.11.vuzi.com.br/goquadros/product/293701.webp" alt="Caveira" class="skull-img" id="skull-img" />
-  </div>
+      <!-- Troque # pelo link do site principal da Opus -->
+      <a href="#" class="back-link">← Voltar ao site principal</a>
+    </div>
+  </header>
 
-  <!-- Botão de Voltar / Alimentar Novamente -->
-  <button class="reset-btn" id="reset-btn"> Alimenta o cria dnv ae </button>
+  <section class="intro">
+    <div class="eyebrow">Nossa equipe</div>
+    <h1>Conheça nossos profissionais</h1>
+    <p>
+      Encontre os profissionais ideais para o seu evento.
+      Conheça suas habilidades, consulte a disponibilidade
+      e monte sua equipe.
+    </p>
+  </section>
 
-  <div class="food-section" id="food-section">
-    <button class="arrow-btn" id="prev-btn">&#10094;</button>
+  <main class="main-container">
 
-    <div class="carousel-wrapper">
-      <div class="carousel-track" id="carousel-track">
-        
-        <div class="food-item" draggable="true" data-type="good" id="item-cookie">
-          <span>🍪</span>
-          <span class="food-name">Cookie</span>
+    <section class="filters">
+      <div class="filters-heading">
+        <h2>Encontre sua equipe</h2>
+        <button class="clear-button" id="clearFilters">
+          Limpar filtros
+        </button>
+      </div>
+
+      <div class="filter-grid">
+
+        <div class="filter-field search-field">
+          <label for="searchName">Nome do profissional</label>
+          <input
+            type="search"
+            id="searchName"
+            placeholder="Digite um nome..."
+          >
         </div>
 
-        <div class="food-item" draggable="true" data-type="bad" id="item-coco">
-          <span>💩</span>
-          <span class="food-name">Cocô</span>
+        <div class="filter-field">
+          <label for="quantity">Quantos profissionais precisa?</label>
+          <select id="quantity">
+            <option value="1">1 profissional</option>
+            <option value="2">2 profissionais</option>
+            <option value="3">3 profissionais</option>
+            <option value="4">4 profissionais</option>
+            <option value="5">5 profissionais</option>
+            <option value="6">6 profissionais</option>
+            <option value="8">8 profissionais</option>
+            <option value="10">10 profissionais</option>
+          </select>
         </div>
 
-        <div class="food-item" draggable="true" data-type="good" id="item-pacoca">
-          <span>🥜</span>
-          <span class="food-name">Paçoca</span>
+        <div class="filter-field">
+          <label for="gender">Gênero</label>
+          <select id="gender">
+            <option value="">Todos</option>
+            <option value="Feminino">Mulher</option>
+            <option value="Masculino">Homem</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label for="age">Faixa etária</label>
+          <select id="age">
+            <option value="">Todas as idades</option>
+            <option value="18-24">18 a 24 anos</option>
+            <option value="25-34">25 a 34 anos</option>
+            <option value="35-44">35 a 44 anos</option>
+            <option value="45+">45 anos ou mais</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label for="skill">Habilidade</label>
+          <select id="skill">
+            <option value="">Todas as habilidades</option>
+            <option value="Pipoqueira">Pipoqueira</option>
+            <option value="Algodão-doce">Algodão-doce</option>
+            <option value="Garçonete">Garçonete</option>
+            <option value="Garçom">Garçom</option>
+            <option value="Bar">Experiência com bar</option>
+            <option value="Distribuição de brindes">Distribuição de brindes</option>
+            <option value="Recepção">Recepção</option>
+            <option value="Festas infantis">Festas infantis</option>
+            <option value="Degustação">Degustação</option>
+            <option value="Atendimento ao público">Atendimento ao público</option>
+          </select>
         </div>
 
       </div>
+
+      <p class="filter-note">
+        Você pode combinar os filtros para encontrar o perfil que procura.
+      </p>
+    </section>
+
+    <div class="results-header">
+      <h2>Profissionais</h2>
+      <span class="results-count" id="resultsCount"></span>
     </div>
 
-    <button class="arrow-btn" id="next-btn">&#10095;</button>
-  </div>
+    <section class="team-grid" id="teamGrid"></section>
 
-  <div class="jumpscare" id="jumpscare-screen">
-    <img src="https://preview.redd.it/make-this-image-scarier-v0-qwbyxq6uhd0c1.jpg?width=640&crop=smart&auto=webp&s=f45c8f2bdbaf7adf57d3e28709f4a0fb72b5f5a7" alt="Susto" />
+    <div class="empty-state" id="emptyState">
+      <h3>Nenhum profissional encontrado</h3>
+      <p>Experimente alterar os filtros para ver outros perfis.</p>
+    </div>
+
+    <div class="selection-bar" id="selectionBar">
+      <p id="selectionText">
+        Nenhum profissional selecionado
+        <small>Escolha os perfis que deseja para seu evento.</small>
+      </p>
+      <button class="selection-button" id="sendSelection">
+        Solicitar equipe
+      </button>
+    </div>
+
+  </main>
+
+  <footer>
+    <strong>OPUS EVENTOS</strong>
+    <p style="margin-top: 8px;">
+      Atendimento em Curitiba e região metropolitana.
+    </p>
+    <p style="margin-top: 5px;">
+      © <span id="year"></span> Opus Eventos. Todos os direitos reservados.
+    </p>
+  </footer>
+
+  <!-- JANELA COM PERFIL E CALENDÁRIO -->
+
+  <div
+    class="modal"
+    id="profileModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalName"
+  >
+    <div class="modal-content">
+
+      <button class="close-modal" id="closeModal" aria-label="Fechar">
+        &times;
+      </button>
+
+      <div class="profile-top">
+        <img
+          class="modal-photo"
+          id="modalPhoto"
+          src=""
+          alt="Foto do profissional"
+        >
+
+        <div>
+          <div class="eyebrow">Perfil profissional</div>
+          <h2 id="modalName"></h2>
+          <div class="profile-meta" id="modalMeta"></div>
+          <p class="profile-description" id="modalDescription"></p>
+        </div>
+      </div>
+
+      <section class="modal-section">
+        <h3>Habilidades</h3>
+        <p>Experiências e atividades que este profissional pode realizar.</p>
+        <div class="profile-skills" id="modalSkills"></div>
+      </section>
+
+      <section class="modal-section">
+        <h3>Datas disponíveis</h3>
+        <p>Selecione uma data para consultar a disponibilidade do profissional.</p>
+
+        <div class="calendar-box">
+          <div class="calendar-top">
+            <button class="month-button" id="previousMonth" aria-label="Mês anterior">
+              ←
+            </button>
+            <strong id="calendarMonth"></strong>
+            <button class="month-button" id="nextMonth" aria-label="Próximo mês">
+              →
+            </button>
+          </div>
+
+          <div class="calendar-grid" id="calendarGrid"></div>
+
+          <div class="calendar-legend">
+            <div class="legend-item">
+              <span class="legend-color" style="background:#e8f2e9;border:1px solid #c5dfca;"></span>
+              Disponível
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background:#f4f2ed;"></span>
+              Indisponível
+            </div>
+          </div>
+
+          <div class="date-message" id="dateMessage" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <div class="modal-actions">
+        <button class="cancel-button" id="cancelModal">
+          Fechar perfil
+        </button>
+        <button class="confirm-button" id="choosePerson">
+          Adicionar à equipe
+        </button>
+      </div>
+
+      <p class="notice">
+        As datas exibidas são demonstrativas. A disponibilidade deve ser
+        confirmada antes da contratação.
+      </p>
+
+    </div>
   </div>
 
   <script>
-    const title = document.getElementById('title');
-    const dropZone = document.getElementById('drop-zone');
-    const foodSection = document.getElementById('food-section');
-    const carouselTrack = document.getElementById('carousel-track');
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
-    const resetBtn = document.getElementById('reset-btn');
-    const jumpscare = document.getElementById('jumpscare-screen');
+    /*
+      DADOS DE DEMONSTRAÇÃO
 
-    let currentIndex = 0;
-    const totalItems = 3;
+      Substitua os nomes, fotos, idades, experiências e datas
+      pelos dados reais dos profissionais da Opus Eventos.
 
-    // 1. Mostrar as comidas após 2 segundos
-    setTimeout(() => {
-      foodSection.classList.add('visible');
-    }, 2000);
+      As fotos deste exemplo vêm de um serviço externo.
+    */
 
-    // 2. Navegação dos botões de seta
-    function updateCarousel() {
-      carouselTrack.style.transform = `translateX(-${currentIndex * 140}px)`;
+    const professionals = [
+      {
+        id: 1,
+        name: "Ana Clara",
+        gender: "Feminino",
+        age: 24,
+        role: "Atendente de eventos",
+        photo: "https://randomuser.me/api/portraits/women/44.jpg",
+        experience: "Experiência em atendimento ao público e eventos sociais.",
+        skills: [
+          "Pipoqueira",
+          "Algodão-doce",
+          "Festas infantis",
+          "Atendimento ao público"
+        ],
+        available: [
+          "2026-10-16", "2026-10-18", "2026-10-22",
+          "2026-10-25", "2026-11-03", "2026-11-08"
+        ]
+      },
+      {
+        id: 2,
+        name: "Mariana Alves",
+        gender: "Feminino",
+        age: 29,
+        role: "Garçonete",
+        photo: "https://randomuser.me/api/portraits/women/68.jpg",
+        experience: "Experiência com serviço de salão e recepção de convidados.",
+        skills: [
+          "Garçonete",
+          "Bar",
+          "Recepção",
+          "Atendimento ao público"
+        ],
+        available: [
+          "2026-10-17", "2026-10-20", "2026-10-24",
+          "2026-10-29", "2026-11-05", "2026-11-12"
+        ]
+      },
+      {
+        id: 3,
+        name: "Juliana Martins",
+        gender: "Feminino",
+        age: 32,
+        role: "Promotora de eventos",
+        photo: "https://randomuser.me/api/portraits/women/32.jpg",
+        experience: "Experiência em ações promocionais e distribuição de materiais.",
+        skills: [
+          "Distribuição de brindes",
+          "Degustação",
+          "Recepção",
+          "Atendimento ao público"
+        ],
+        available: [
+          "2026-10-19", "2026-10-21", "2026-10-26",
+          "2026-10-30", "2026-11-02", "2026-11-10"
+        ]
+      },
+      {
+        id: 4,
+        name: "Camila Souza",
+        gender: "Feminino",
+        age: 21,
+        role: "Auxiliar de festas",
+        photo: "https://randomuser.me/api/portraits/women/25.jpg",
+        experience: "Experiência em apoio a festas e organização de estações de serviço.",
+        skills: [
+          "Pipoqueira",
+          "Festas infantis",
+          "Algodão-doce",
+          "Atendimento ao público"
+        ],
+        available: [
+          "2026-10-18", "2026-10-23", "2026-10-27",
+          "2026-11-04", "2026-11-09", "2026-11-15"
+        ]
+      },
+      {
+        id: 5,
+        name: "Lucas Ferreira",
+        gender: "Masculino",
+        age: 27,
+        role: "Atendente de eventos",
+        photo: "https://randomuser.me/api/portraits/men/32.jpg",
+        experience: "Experiência em eventos sociais e atendimento a convidados.",
+        skills: [
+          "Garçom",
+          "Bar",
+          "Recepção",
+          "Atendimento ao público"
+        ],
+        available: [
+          "2026-10-16", "2026-10-21", "2026-10-28",
+          "2026-11-01", "2026-11-07", "2026-11-14"
+        ]
+      },
+      {
+        id: 6,
+        name: "Beatriz Lima",
+        gender: "Feminino",
+        age: 35,
+        role: "Profissional de eventos",
+        photo: "https://randomuser.me/api/portraits/women/49.jpg",
+        experience: "Experiência em organização, recepção e atendimento.",
+        skills: [
+          "Recepção",
+          "Distribuição de brindes",
+          "Degustação",
+          "Atendimento ao público"
+        ],
+        available: [
+          "2026-10-20", "2026-10-24", "2026-10-31",
+          "2026-11-06", "2026-11-11", "2026-11-18"
+        ]
+      },
+      {
+        id: 7,
+        name: "Pedro Henrique",
+        gender: "Masculino",
+        age: 23,
+        role: "Auxiliar de festas",
+        photo: "https://randomuser.me/api/portraits/men/45.jpg",
+        experience: "Experiência em festas infantis e serviços de apoio.",
+        skills: [
+          "Pipoqueira",
+          "Algodão-doce",
+          "Festas infantis",
+          "Atendimento ao público"
+        ],
+        available: [
+          "2026-10-17", "2026-10-22", "2026-10-26",
+          "2026-11-03", "2026-11-12", "2026-11-20"
+        ]
+      },
+      {
+        id: 8,
+        name: "Rafael Costa",
+        gender: "Masculino",
+        age: 38,
+        role: "Garçom",
+        photo: "https://randomuser.me/api/portraits/men/52.jpg",
+        experience: "Experiência em atendimento de salão e apoio a eventos.",
+        skills: [
+          "Garçom",
+          "Bar",
+          "Recepção",
+          "Atendimento ao público"
+        ],
+        available: [
+          "2026-10-19", "2026-10-25", "2026-10-29",
+          "2026-11-02", "2026-11-09", "2026-11-16"
+        ]
+      },
+      {
+        id: 9,
+        name: "Fernanda Rocha",
+        gender: "Feminino",
+        age: 26,
+        role: "Promotora de eventos",
+        photo: "https://randomuser.me/api/portraits/women/56.jpg",
+        experience: "Experiência com ações promocionais e interação com o público.",
+        skills: [
+          "Degustação",
+          "Distribuição de brindes",
+          "Recepção",
+          "Atendimento ao público"
+        ],
+        available: [
+          "2026-10-16", "2026-10-23", "2026-10-27",
+          "2026-11-04", "2026-11-13", "2026-11-19"
+        ]
+      },
+      {
+        id: 10,
+        name: "Gabriel Santos",
+        gender: "Masculino",
+        age: 31,
+        role: "Atendente de eventos",
+        photo: "https://randomuser.me/api/portraits/men/68.jpg",
+        experience: "Experiência em atendimento e apoio operacional.",
+        skills: [
+          "Pipoqueira",
+          "Bar",
+          "Garçom",
+          "Festas infantis"
+        ],
+        available: [
+          "2026-10-18", "2026-10-24", "2026-10-30",
+          "2026-11-05", "2026-11-10", "2026-11-17"
+        ]
+      },
+      {
+        id: 11,
+        name: "Isabela Mendes",
+        gender: "Feminino",
+        age: 42,
+        role: "Recepcionista",
+        photo: "https://randomuser.me/api/portraits/women/65.jpg",
+        experience: "Experiência em recepção e orientação de convidados.",
+        skills: [
+          "Recepção",
+          "Distribuição de brindes",
+          "Atendimento ao público"
+        ],
+        available: [
+          "2026-10-21", "2026-10-26", "2026-10-31",
+          "2026-11-06", "2026-11-14", "2026-11-21"
+        ]
+      },
+      {
+        id: 12,
+        name: "Matheus Oliveira",
+        gender: "Masculino",
+        age: 19,
+        role: "Auxiliar de festas",
+        photo: "https://randomuser.me/api/portraits/men/22.jpg",
+        experience: "Experiência em apoio a eventos e atendimento.",
+        skills: [
+          "Algodão-doce",
+          "Pipoqueira",
+          "Festas infantis",
+          "Distribuição de brindes"
+        ],
+        available: [
+          "2026-10-17", "2026-10-20", "2026-10-28",
+          "2026-11-01", "2026-11-08", "2026-11-15"
+        ]
+      }
+    ];
+
+    const grid = document.getElementById("teamGrid");
+    const resultsCount = document.getElementById("resultsCount");
+    const emptyState = document.getElementById("emptyState");
+    const quantityInput = document.getElementById("quantity");
+    const modal = document.getElementById("profileModal");
+
+    let selectedPeople = [];
+    let currentPerson = null;
+    let selectedDate = null;
+    let calendarMonth = new Date();
+    calendarMonth = new Date(
+      calendarMonth.getFullYear(),
+      calendarMonth.getMonth(),
+      1
+    );
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+    // FILTROS
+
+    function getFilteredPeople() {
+      const name = document.getElementById("searchName")
+        .value.trim().toLowerCase();
+
+      const gender = document.getElementById("gender").value;
+      const age = document.getElementById("age").value;
+      const skill = document.getElementById("skill").value;
+
+      return professionals.filter(person => {
+        const matchesName = person.name.toLowerCase().includes(name);
+
+        const matchesGender =
+          !gender || person.gender === gender;
+
+        let matchesAge = true;
+
+        if (age === "18-24") {
+          matchesAge = person.age >= 18 && person.age <= 24;
+        } else if (age === "25-34") {
+          matchesAge = person.age >= 25 && person.age <= 34;
+        } else if (age === "35-44") {
+          matchesAge = person.age >= 35 && person.age <= 44;
+        } else if (age === "45+") {
+          matchesAge = person.age >= 45;
+        }
+
+        const matchesSkill =
+          !skill || person.skills.includes(skill);
+
+        return (
+          matchesName &&
+          matchesGender &&
+          matchesAge &&
+          matchesSkill
+        );
+      });
     }
 
-    prevBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalItems - 1;
-      updateCarousel();
-    });
+    function renderPeople() {
+      const people = getFilteredPeople();
 
-    nextBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex < totalItems - 1) ? currentIndex + 1 : 0;
-      updateCarousel();
-    });
+      grid.innerHTML = "";
 
-    // 3. Suporte a Drag and Drop (Arrastar e Soltar) + Clique
-    const foodItems = document.querySelectorAll('.food-item');
+      resultsCount.textContent =
+        people.length + (people.length === 1
+          ? " profissional encontrado"
+          : " profissionais encontrados");
 
-    foodItems.forEach(item => {
-      item.addEventListener('dragstart', (e) => {
-        e.dataTransfer.setData('text/plain', item.dataset.type);
+      emptyState.style.display =
+        people.length === 0 ? "block" : "none";
+
+      people.forEach(person => {
+        const card = document.createElement("article");
+        card.className = "person-card";
+
+        if (selectedPeople.includes(person.id)) {
+          card.classList.add("selected-card");
+        }
+
+        const photoWrap = document.createElement("div");
+        photoWrap.className = "photo-wrap";
+
+        const photo = document.createElement("img");
+        photo.className = "person-photo";
+        photo.src = person.photo;
+        photo.alt = "Foto ilustrativa de " + person.name;
+        photo.loading = "lazy";
+
+        const dot = document.createElement("span");
+        dot.className = "availability-dot";
+        dot.title = "Consulte o calendário de disponibilidade";
+
+        photoWrap.append(photo, dot);
+
+        const name = document.createElement("h3");
+        name.textContent = person.name;
+
+        const role = document.createElement("p");
+        role.className = "person-role";
+        role.textContent = person.role;
+
+        const tags = document.createElement("div");
+        tags.className = "skill-tags";
+
+        person.skills.slice(0, 2).forEach(skill => {
+          const tag = document.createElement("span");
+          tag.className = "skill-tag";
+          tag.textContent = skill;
+          tags.appendChild(tag);
+        });
+
+        const button = document.createElement("button");
+        button.className = "profile-button";
+        button.textContent = selectedPeople.includes(person.id)
+          ? "Selecionado ✓"
+          : "Ver perfil";
+
+        button.addEventListener("click", () => {
+          openProfile(person.id);
+        });
+
+        card.append(photoWrap, name, role, tags, button);
+        grid.appendChild(card);
       });
 
-      item.addEventListener('click', () => {
-        feedSkull(item.dataset.type);
+      renderSelection();
+    }
+
+    ["searchName", "gender", "age", "skill"].forEach(id => {
+      document.getElementById(id).addEventListener(
+        id === "searchName" ? "input" : "change",
+        renderPeople
+      );
+    });
+
+    document.getElementById("clearFilters").addEventListener("click", () => {
+      document.getElementById("searchName").value = "";
+      document.getElementById("gender").value = "";
+      document.getElementById("age").value = "";
+      document.getElementById("skill").value = "";
+      renderPeople();
+    });
+
+    // PERFIL
+
+    function openProfile(id) {
+      currentPerson = professionals.find(person => person.id === id);
+      selectedDate = null;
+
+      document.getElementById("modalPhoto").src = currentPerson.photo;
+      document.getElementById("modalPhoto").alt =
+        "Foto ilustrativa de " + currentPerson.name;
+
+      document.getElementById("modalName").textContent =
+        currentPerson.name;
+
+      document.getElementById("modalMeta").textContent =
+        currentPerson.age + " anos · " + currentPerson.role;
+
+      document.getElementById("modalDescription").textContent =
+        currentPerson.experience;
+
+      const skillsContainer = document.getElementById("modalSkills");
+      skillsContainer.innerHTML = "";
+
+      currentPerson.skills.forEach(skill => {
+        const tag = document.createElement("span");
+        tag.textContent = skill;
+        skillsContainer.appendChild(tag);
       });
-    });
 
-    dropZone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropZone.classList.add('drop-hover');
-    });
+      document.getElementById("dateMessage").textContent = "";
+      calendarMonth = new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth(),
+        1
+      );
 
-    dropZone.addEventListener('dragleave', () => {
-      dropZone.classList.remove('drop-hover');
-    });
+      document.getElementById("choosePerson").textContent =
+        selectedPeople.includes(id)
+          ? "Remover da equipe"
+          : "Adicionar à equipe";
 
-    dropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropZone.classList.remove('drop-hover');
-      const itemType = e.dataTransfer.getData('text/plain');
-      if (itemType) {
-        feedSkull(itemType);
+      modal.classList.add("open");
+      document.body.style.overflow = "hidden";
+
+      renderCalendar();
+    }
+
+    function closeProfile() {
+      modal.classList.remove("open");
+      document.body.style.overflow = "";
+      currentPerson = null;
+    }
+
+    document.getElementById("closeModal")
+      .addEventListener("click", closeProfile);
+
+    document.getElementById("cancelModal")
+      .addEventListener("click", closeProfile);
+
+    modal.addEventListener("click", event => {
+      if (event.target === modal) {
+        closeProfile();
       }
     });
 
-    // 4. Lógica de Alimentar a Caveira
-    function feedSkull(type) {
-      if (type === 'good') {
-        title.innerText = 'Pica boy';
-        foodSection.style.display = 'none';
-        resetBtn.classList.add('visible');
-      } else if (type === 'bad') {
-        title.innerText = 'Seu desumano, agora irei pegar tudo que é seu';
-        foodSection.style.display = 'none';
-        
-        setTimeout(() => {
-          jumpscare.classList.add('active');
-        }, 800);
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        closeProfile();
+      }
+    });
+
+    // CALENDÁRIO DE DISPONIBILIDADE
+
+    function formatDate(year, month, day) {
+      return [
+        year,
+        String(month + 1).padStart(2, "0"),
+        String(day).padStart(2, "0")
+      ].join("-");
+    }
+
+    function renderCalendar() {
+      if (!currentPerson) return;
+
+      const year = calendarMonth.getFullYear();
+      const month = calendarMonth.getMonth();
+
+      const monthName = calendarMonth.toLocaleDateString(
+        "pt-BR",
+        { month: "long", year: "numeric" }
+      );
+
+      document.getElementById("calendarMonth").textContent = monthName;
+
+      const calendarGrid = document.getElementById("calendarGrid");
+      calendarGrid.innerHTML = "";
+
+      ["D", "S", "T", "Q", "Q", "S", "S"].forEach(day => {
+        const el = document.createElement("div");
+        el.className = "weekday";
+        el.textContent = day;
+        calendarGrid.appendChild(el);
+      });
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      for (let i = 0; i < firstDay; i++) {
+        const blank = document.createElement("div");
+        calendarGrid.appendChild(blank);
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateString = formatDate(year, month, day);
+        const date = new Date(year, month, day);
+        const isPast = date < today;
+
+        const isAvailable =
+          currentPerson.available.includes(dateString) && !isPast;
+
+        const cell = document.createElement("button");
+        cell.type = "button";
+        cell.className = "calendar-day";
+        cell.textContent = day;
+
+        if (isAvailable) {
+          cell.classList.add("available");
+          cell.title = "Consultar disponibilidade nesta data";
+
+          if (selectedDate === dateString) {
+            cell.classList.add("chosen");
+          }
+
+          cell.addEventListener("click", () => {
+            selectedDate = dateString;
+
+            const readableDate = new Date(
+              year, month, day
+            ).toLocaleDateString("pt-BR", {
+              day: "2-digit",
+              month: "long",
+              year: "numeric"
+            });
+
+            document.getElementById("dateMessage").textContent =
+              "Data selecionada: " + readableDate +
+              ". Confirme a disponibilidade com a Opus.";
+
+            renderCalendar();
+          });
+        } else {
+          cell.disabled = true;
+
+          if (isPast) {
+            cell.classList.add("past");
+          }
+        }
+
+        calendarGrid.appendChild(cell);
       }
     }
 
-    // 5. Botão Voltar/Resetar
-    resetBtn.addEventListener('click', () => {
-      title.innerText = 'Alimente a caveira';
-      resetBtn.classList.remove('visible');
-      foodSection.style.display = 'flex';
+    document.getElementById("previousMonth").addEventListener("click", () => {
+      calendarMonth = new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() - 1,
+        1
+      );
+      selectedDate = null;
+      document.getElementById("dateMessage").textContent = "";
+      renderCalendar();
     });
+
+    document.getElementById("nextMonth").addEventListener("click", () => {
+      calendarMonth = new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + 1,
+        1
+      );
+      selectedDate = null;
+      document.getElementById("dateMessage").textContent = "";
+      renderCalendar();
+    });
+
+    // SELEÇÃO DE PROFISSIONAIS
+
+    function renderSelection() {
+      const bar = document.getElementById("selectionBar");
+      const text = document.getElementById("selectionText");
+      const limit = Number(quantityInput.value);
+
+      bar.style.display =
+        selectedPeople.length > 0 ? "flex" : "none";
+
+      text.innerHTML = "";
+
+      const summary = document.createElement("span");
+      summary.textContent = selectedPeople.length + " de " + limit +
+        " profissional(is) selecionado(s)";
+
+      const note = document.createElement("small");
+      note.textContent = "Você poderá enviar sua seleção para a Opus.";
+
+      text.append(summary, note);
+    }
+
+    quantityInput.addEventListener("change", () => {
+      const limit = Number(quantityInput.value);
+
+      if (selectedPeople.length > limit) {
+        selectedPeople = selectedPeople.slice(0, limit);
+      }
+
+      renderPeople();
+    });
+
+    document.getElementById("choosePerson").addEventListener("click", () => {
+      if (!currentPerson) return;
+
+      const id = currentPerson.id;
+      const limit = Number(quantityInput.value);
+
+      if (selectedPeople.includes(id)) {
+        selectedPeople = selectedPeople.filter(personId => personId !== id);
+      } else {
+        if (selectedPeople.length >= limit) {
+          alert(
+            "Você selecionou a quantidade máxima de profissionais. " +
+            "Aumente a quantidade desejada ou remova alguém da seleção."
+          );
+          return;
+        }
+
+        selectedPeople.push(id);
+      }
+
+      renderPeople();
+      closeProfile();
+    });
+
+    document.getElementById("sendSelection").addEventListener("click", () => {
+      if (selectedPeople.length === 0) {
+        alert("Selecione pelo menos um profissional.");
+        return;
+      }
+
+      const selected = selectedPeople.map(id => {
+        const person = professionals.find(p => p.id === id);
+        return "- " + person.name + " (" + person.role + ")";
+      });
+
+      const message = [
+        "Olá! Conheci a equipe da Opus Eventos e gostaria de solicitar um orçamento.",
+        "",
+        "Quantidade desejada: " + quantityInput.value,
+        "",
+        "Profissionais selecionados:",
+        ...selected,
+        "",
+        "Gostaria de confirmar a disponibilidade e receber mais informações sobre valores e contratação."
+      ].join("\n");
+
+      /*
+        IMPORTANTE:
+        Troque o número abaixo pelo WhatsApp comercial real
+        da Opus Eventos, com código do Brasil e DDD.
+      */
+      const WHATSAPP_NUMBER = "5541999999999";
+
+      const url = "https://wa.me/" + WHATSAPP_NUMBER +
+        "?text=" + encodeURIComponent(message);
+
+      window.open(url, "_blank", "noopener,noreferrer");
+    });
+
+    // INICIALIZAÇÃO
+
+    renderPeople();
   </script>
+
 </body>
 </html>
