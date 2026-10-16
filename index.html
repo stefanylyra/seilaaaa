@@ -278,7 +278,7 @@ footer strong{font:18px Georgia,serif;letter-spacing:2px;color:var(--gold-light)
       <h3>Fotos trabalhando</h3>
       <p>Conheça um pouco do trabalho deste profissional.</p>
       <div id="carousel"></div>
-      <div class="admin-note">Modo de edição: abra “Editar perfil” abaixo para inserir links de fotos. Separe os links por vírgula.</div>
+      <div class="admin-note">Modo de edição: abra “Editar perfil” abaixo para escolher fotos do computador ou celular.</div>
     </section>
 
     <section class="section">
@@ -314,8 +314,8 @@ footer strong{font:18px Georgia,serif;letter-spacing:2px;color:var(--gold-light)
         <div class="field"><label for="editGender">Gênero</label>
           <select id="editGender"><option>Feminino</option><option>Masculino</option><option>Não informado</option></select>
         </div>
-        <div class="field span2"><label for="editPhoto">URL da foto de perfil</label><input id="editPhoto" placeholder="https://..."></div>
-        <div class="field span2"><label for="editGallery">Fotos trabalhando (URLs separadas por vírgula)</label><textarea id="editGallery" placeholder="https://foto1.jpg, https://foto2.jpg"></textarea></div>
+        <div class="field span2"><label for="editPhotoFile">Foto de perfil</label><input id="editPhotoFile" type="file" accept="image/*"><img id="editPhotoPreview" class="upload-preview" alt="Prévia da foto de perfil" hidden><small class="upload-help">Escolha uma foto do computador ou celular. Se não escolher outra, a foto atual será mantida.</small></div>
+        <div class="field span2"><label for="editGalleryFiles">Fotos trabalhando</label><input id="editGalleryFiles" type="file" accept="image/*" multiple><small class="upload-help" id="editGalleryHelp">As fotos novas serão adicionadas à galeria atual.</small><div id="editGalleryPreview" class="upload-previews"></div></div>
         <div class="field span2"><label for="editSkills">Habilidades (separadas por vírgula)</label><textarea id="editSkills" placeholder="Pipoqueira, Recepção, Bar"></textarea></div>
         <div class="field span2"><label for="editDescription">Descrição / experiência</label><textarea id="editDescription"></textarea></div>
       </div>
@@ -466,6 +466,8 @@ const fallbackImage =
   "https://placehold.co/500x500/f0eadc/746343?text=Opus+Eventos";
 
 function validImageUrl(url) {
+  if (typeof url !== "string") return false;
+  if (url.startsWith("data:image/")) return true;
   try {
     const parsed = new URL(url);
     return parsed.protocol === "https:" || parsed.protocol === "http:";
@@ -473,6 +475,72 @@ function validImageUrl(url) {
     return false;
   }
 }
+
+function imageFileToDataUrl(file, maxSide = 1000, quality = 0.75) {
+  return new Promise((resolve, reject) => {
+    if (!file || !file.type.startsWith("image/")) {
+      reject(new Error("Selecione um arquivo de imagem válido."));
+      return;
+    }
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("Não foi possível ler a imagem."));
+    reader.onload = () => {
+      const image = new Image();
+      image.onerror = () => reject(new Error("Não foi possível abrir esta imagem."));
+      image.onload = () => {
+        const scale = Math.min(1, maxSide / Math.max(image.width, image.height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.round(image.width * scale));
+        canvas.height = Math.max(1, Math.round(image.height * scale));
+        canvas.getContext("2d").drawImage(image, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      image.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function previewSelectedImage(inputId, previewId) {
+  const input = $(inputId), preview = $(previewId);
+  if (!input || !preview) return;
+  input.addEventListener("change", () => {
+    const file = input.files && input.files[0];
+    if (!file) {
+      preview.hidden = true;
+      preview.removeAttribute("src");
+      return;
+    }
+    preview.src = URL.createObjectURL(file);
+    preview.hidden = false;
+  });
+}
+
+function previewSelectedImages(inputId, previewId) {
+  const input = $(inputId), host = $(previewId);
+  if (!input || !host) return;
+  input.addEventListener("change", () => {
+    host.innerHTML = "";
+    [...(input.files || [])].slice(0, 12).forEach(file => {
+      const img = document.createElement("img");
+      img.alt = "Prévia de " + file.name;
+      img.src = URL.createObjectURL(file);
+      host.appendChild(img);
+    });
+    if (input.files.length > 12) {
+      const note = document.createElement("small");
+      note.className = "upload-help";
+      note.textContent = "Foram selecionadas " + input.files.length + " fotos.";
+      host.appendChild(note);
+    }
+  });
+}
+
+
+previewSelectedImage("newPhotoFile", "newPhotoPreview");
+previewSelectedImages("newGalleryFiles", "newGalleryPreview");
+previewSelectedImage("editPhotoFile", "editPhotoPreview");
+previewSelectedImages("editGalleryFiles", "editGalleryPreview");
 
 /* ADMINISTRAÇÃO */
 
@@ -502,8 +570,8 @@ $("addPerson").addEventListener("click", () => {
       <div class="field"><label>Função</label><input id="newRole" placeholder="Ex.: Promotora de eventos"></div>
       <div class="field"><label>Idade</label><input id="newAge" type="number" min="18" max="100" placeholder="18"></div>
       <div class="field"><label>Gênero</label><select id="newGender"><option>Feminino</option><option>Masculino</option><option>Não informado</option></select></div>
-      <div class="field span2"><label>URL da foto de perfil</label><input id="newPhoto" placeholder="https://..."></div>
-      <div class="field span2"><label>Fotos trabalhando (URLs separadas por vírgula)</label><textarea id="newGallery" placeholder="https://foto1.jpg, https://foto2.jpg"></textarea></div>
+      <div class="field span2"><label for="newPhotoFile">Foto de perfil</label><input id="newPhotoFile" type="file" accept="image/*"><img id="newPhotoPreview" class="upload-preview" alt="Prévia da foto de perfil" hidden></div>
+      <div class="field span2"><label for="newGalleryFiles">Fotos trabalhando</label><input id="newGalleryFiles" type="file" accept="image/*" multiple><small class="upload-help">Você pode selecionar várias fotos de uma vez.</small><div id="newGalleryPreview" class="upload-previews"></div></div>
       <div class="field span2"><label>Habilidades separadas por vírgula</label><textarea id="newSkills" placeholder="Pipoqueira, Recepção, Bar"></textarea></div>
       <div class="field span2"><label>Experiência / descrição</label><textarea id="newDescription"></textarea></div>
     </div>
@@ -525,51 +593,38 @@ function splitList(value) {
   return value.split(",").map(v => v.trim()).filter(Boolean);
 }
 
-function createPerson() {
+async function createPerson() {
   const name = $("newName").value.trim();
   const role = $("newRole").value.trim();
   const age = Number($("newAge").value);
-  const photo = $("newPhoto").value.trim();
-
+  const photoFile = $("newPhotoFile").files[0];
+  const galleryFiles = [...$("newGalleryFiles").files];
   if (!name || !role || !age || age < 18 || age > 100) {
-    alert("Preencha nome, função e idade válida (18 anos ou mais).");
-    return;
+    alert("Preencha nome, função e idade válida (18 anos ou mais)."); return;
   }
-
-  if (photo && !validImageUrl(photo)) {
-    alert("A foto de perfil precisa ser um endereço de imagem válido iniciado por http:// ou https://.");
-    return;
+  if (!photoFile) { alert("Escolha uma foto de perfil para esta profissional."); return; }
+  if (galleryFiles.length > 12) { alert("Selecione no máximo 12 fotos de trabalho por vez."); return; }
+  const button = $("createPerson");
+  button.disabled = true; button.textContent = "Salvando fotos...";
+  try {
+    const photo = await imageFileToDataUrl(photoFile, 700, 0.72);
+    const gallery = await Promise.all(galleryFiles.map(file => imageFileToDataUrl(file, 1000, 0.70)));
+    const person = {
+      id: newId(), name, role, age, gender: $("newGender").value, photo, gallery,
+      experience: $("newDescription").value.trim(), skills: splitList($("newSkills").value), available: []
+    };
+    people.push(person);
+    if (!savePeople()) { people.pop(); return; }
+    $("newEditor").innerHTML = "";
+    $("newEditor").classList.remove("visible");
+    renderPeople(); openProfile(person.id);
+  } catch (error) {
+    alert("Não foi possível processar as fotos. Tente imagens menores ou menos fotos.");
+    console.error(error);
+  } finally {
+    const currentButton = $("createPerson");
+    if (currentButton) { currentButton.disabled = false; currentButton.textContent = "Cadastrar profissional"; }
   }
-
-  const gallery = splitList($("newGallery").value);
-  if (gallery.some(url => !validImageUrl(url))) {
-    alert("Verifique os links das fotos de trabalho.");
-    return;
-  }
-
-  const person = {
-    id: newId(),
-    name,
-    role,
-    age,
-    gender: $("newGender").value,
-    photo: photo || fallbackImage,
-    gallery,
-    experience: $("newDescription").value.trim(),
-    skills: splitList($("newSkills").value),
-    available: []
-  };
-
-  people.push(person);
-  if (!savePeople()) {
-    people.pop();
-    return;
-  }
-
-  $("newEditor").innerHTML = "";
-  $("newEditor").classList.remove("visible");
-  renderPeople();
-  openProfile(person.id);
 }
 
 function renderPeople() {
@@ -714,8 +769,14 @@ function fillEditor(p) {
   $("editRole").value = p.role;
   $("editAge").value = p.age;
   $("editGender").value = p.gender || "Não informado";
-  $("editPhoto").value = p.photo || "";
-  $("editGallery").value = (p.gallery || []).join(", ");
+  $("editPhotoFile").value = "";
+  $("editPhotoPreview").src = p.photo || fallbackImage;
+  $("editPhotoPreview").hidden = false;
+  $("editGalleryFiles").value = "";
+  $("editGalleryPreview").innerHTML = "";
+  $("editGalleryHelp").textContent = (p.gallery || []).length
+    ? "A galeria já tem " + p.gallery.length + " foto(s). As novas serão adicionadas."
+    : "Você pode selecionar várias fotos de uma vez. Elas serão adicionadas à galeria.";
   $("editSkills").value = (p.skills || []).join(", ");
   $("editDescription").value = p.experience || "";
 }
@@ -738,7 +799,7 @@ function renderCarousel() {
     const empty = document.createElement("div");
     empty.className = "no-photos";
     empty.textContent = adminMode
-      ? "Nenhuma foto de trabalho cadastrada. Abra Editar perfil para adicionar links."
+      ? "Nenhuma foto de trabalho cadastrada. Abra Editar perfil para escolher fotos."
       : "Este profissional ainda não possui fotos de trabalhos cadastradas.";
     host.appendChild(empty);
     return;
@@ -806,62 +867,45 @@ function renderCarousel() {
 
 /* SALVAR E EXCLUIR */
 
-$("saveProfile").addEventListener("click", () => {
+$("saveProfile").addEventListener("click", async () => {
   const p = getCurrentPerson();
   if (!p) return;
-
   const name = $("editName").value.trim();
   const role = $("editRole").value.trim();
   const age = Number($("editAge").value);
-  const photo = $("editPhoto").value.trim();
-  const gallery = splitList($("editGallery").value);
-
+  const photoFile = $("editPhotoFile").files[0];
+  const galleryFiles = [...$("editGalleryFiles").files];
   if (!name || !role || !age || age < 18 || age > 100) {
-    alert("Preencha nome, função e idade válida (18 anos ou mais).");
-    return;
+    alert("Preencha nome, função e idade válida (18 anos ou mais)."); return;
   }
-
-  if (photo && !validImageUrl(photo)) {
-    alert("O endereço da foto de perfil precisa começar com http:// ou https://.");
-    return;
-  }
-
-  if (gallery.some(url => !validImageUrl(url))) {
-    alert("Há algum link inválido nas fotos de trabalho. Separe links válidos por vírgulas.");
-    return;
-  }
-
-  const old = { ...p, skills: [...p.skills], gallery: [...p.gallery], available: [...p.available] };
-
-  p.name = name;
-  p.role = role;
-  p.age = age;
-  p.gender = $("editGender").value;
-  p.photo = photo || fallbackImage;
-  p.gallery = gallery;
-  p.skills = splitList($("editSkills").value);
-  p.experience = $("editDescription").value.trim();
-
-  if (!savePeople()) {
+  if (galleryFiles.length > 12) { alert("Selecione no máximo 12 fotos novas por vez."); return; }
+  const button = $("saveProfile");
+  button.disabled = true; button.textContent = "Salvando fotos...";
+  const old = {...p, skills:[...p.skills], gallery:[...p.gallery], available:[...p.available]};
+  try {
+    const newPhoto = photoFile ? await imageFileToDataUrl(photoFile, 700, 0.72) : (p.photo || fallbackImage);
+    const newGalleryPhotos = await Promise.all(galleryFiles.map(file => imageFileToDataUrl(file, 1000, 0.70)));
+    p.name = name; p.role = role; p.age = age; p.gender = $("editGender").value;
+    p.photo = newPhoto; p.gallery = [...(p.gallery || []), ...newGalleryPhotos];
+    p.skills = splitList($("editSkills").value);
+    p.experience = $("editDescription").value.trim();
+    if (!savePeople()) { Object.assign(p, old); return; }
+    $("profileName").textContent = p.name;
+    $("profileMeta").textContent = p.age + " anos · " + p.role;
+    $("profileDesc").textContent = p.experience || "Profissional da equipe Opus Eventos.";
+    $("profileAvatar").src = p.photo; safeImage($("profileAvatar"), fallbackImage);
+    $("profileEditor").classList.remove("visible");
+    $("profileSkills").innerHTML = "";
+    p.skills.forEach(skill => { const el = document.createElement("span"); el.textContent = skill; $("profileSkills").appendChild(el); });
+    renderPeople(); renderCarousel(); fillEditor(p);
+    alert("Perfil atualizado e salvo neste navegador!");
+  } catch (error) {
     Object.assign(p, old);
-    return;
+    alert("Não foi possível processar as fotos. Tente imagens menores ou menos fotos.");
+    console.error(error);
+  } finally {
+    button.disabled = false; button.textContent = "Salvar alterações";
   }
-
-  $("profileName").textContent = p.name;
-  $("profileMeta").textContent = p.age + " anos · " + p.role;
-  $("profileDesc").textContent = p.experience || "Profissional da equipe Opus Eventos.";
-  $("profileAvatar").src = p.photo;
-  safeImage($("profileAvatar"), fallbackImage);
-  $("profileSkills").innerHTML = "";
-  p.skills.forEach(skill => {
-    const el = document.createElement("span");
-    el.textContent = skill;
-    $("profileSkills").appendChild(el);
-  });
-
-  renderPeople();
-  renderCarousel();
-  alert("Perfil atualizado e salvo neste navegador!");
 });
 
 $("deleteProfile").addEventListener("click", () => {
