@@ -1,0 +1,1197 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nossa Equipe | Opus Eventos</title>
+
+<style>
+:root {
+  --black:#191815;
+  --gold:#b99a59;
+  --gold-light:#e7d7b1;
+  --bg:#f8f6f1;
+  --white:#fff;
+  --text:#292823;
+  --muted:#77756e;
+  --border:#e5dfd3;
+  --green:#477b53;
+  --red:#a74840;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+header{background:var(--black);color:white;border-bottom:2px solid var(--gold)}
+.header-inner{max-width:1200px;margin:auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.logo{font:26px Georgia,serif;letter-spacing:3px;color:var(--gold-light)}
+.logo small{display:block;text-align:center;font:9px Arial;letter-spacing:4px;color:white}
+.header-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.header-actions a{color:white;text-decoration:none;font-size:12px}
+.btn{border:1px solid var(--gold);background:var(--black);color:white;border-radius:5px;padding:11px 14px;font-size:12px;font-weight:bold}
+.btn.gold{background:var(--gold);color:var(--black)}
+.btn.light{background:white;color:var(--text);border-color:var(--border)}
+.btn.danger{border-color:#e5b7b2;color:var(--red);background:#fff7f6}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.intro,.main{max-width:1200px;margin:auto;padding-left:22px;padding-right:22px}
+.intro{padding-top:38px;padding-bottom:24px}
+.eyebrow{text-transform:uppercase;letter-spacing:2px;color:#94783e;font-size:11px;font-weight:bold}
+h1{font:normal clamp(28px,4vw,39px) Georgia,serif;color:var(--black);margin:9px 0}
+.intro p{color:var(--muted);font-size:14px;max-width:650px;line-height:1.6}
+.admin-panel{display:none;background:#fff;border:1px solid var(--gold);border-radius:8px;padding:17px;margin-bottom:24px}
+.admin-panel.visible{display:block}
+.admin-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.admin-top h2{font-size:16px;margin:0}
+.admin-help{font-size:12px;line-height:1.6;color:var(--muted);margin:10px 0}
+.filters{background:white;border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:24px}
+.filters h2{font-size:16px;margin:0 0 15px}
+.filter-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font-size:12px;font-weight:bold}
+.field input,.field select,.field textarea{width:100%;min-width:0;border:1px solid var(--border);border-radius:5px;padding:11px;background:white;color:var(--text);font-size:13px}
+.field textarea{resize:vertical;min-height:75px}
+.field input:focus,.field select:focus,.field textarea:focus{outline:1px solid var(--gold)}
+.span2{grid-column:span 2}
+.results-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.results-head h2{font-size:17px}
+.results-head span{font-size:12px;color:var(--muted)}
+.team-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}
+.person-card{position:relative;background:white;border:1px solid var(--border);border-radius:8px;padding:22px 14px 15px;text-align:center;min-width:0}
+.person-card.selected{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
+.photo-wrap{width:104px;height:104px;margin:0 auto 13px;position:relative}
+.person-photo{width:100%;height:100%;object-fit:cover;border-radius:50%;border:3px solid var(--gold-light);background:#e8e3d8}
+.status-dot{position:absolute;right:2px;bottom:3px;width:17px;height:17px;border-radius:50%;border:3px solid white;background:var(--green)}
+.person-card h3{font-size:15px;margin:0 0 4px;color:var(--black)}
+.role{font-size:12px;color:var(--muted);margin:0 0 12px}
+.tags{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;min-height:24px;margin-bottom:13px}
+.tag{font-size:10px;background:#f3efe6;color:#685630;border-radius:3px;padding:5px 7px}
+.card-buttons{display:grid;gap:7px}
+.card-buttons .btn{width:100%;padding:10px 5px}
+.edit-card{display:none}
+.admin-on .edit-card{display:block}
+.empty{display:none;text-align:center;background:white;border:1px solid var(--border);padding:35px;border-radius:8px;color:var(--muted)}
+.selection-bar{display:none;position:sticky;bottom:10px;z-index:4;max-width:720px;margin:24px auto;background:var(--black);border:1px solid var(--gold);border-radius:8px;color:white;padding:14px 17px;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 4px 20px #0002}
+.selection-bar p{font-size:12px;margin:0}
+.selection-bar small{display:block;color:#d5d0c6;margin-top:3px}
+footer{margin-top:50px;background:var(--black);color:#d5d0c6;text-align:center;padding:25px;font-size:11px}
+footer strong{font:18px Georgia,serif;letter-spacing:2px;color:var(--gold-light)}
+/* MODAL */
+.modal{display:none;position:fixed;inset:0;z-index:10;background:#111c;padding:16px;overflow-y:auto;align-items:flex-start;justify-content:center}
+.modal.open{display:flex}
+.modal-content{position:relative;margin:auto;width:100%;max-width:760px;background:var(--bg);border-radius:10px;padding:24px}
+.close{position:absolute;right:14px;top:10px;background:none;border:0;font-size:28px;color:#777}
+.profile-top{display:flex;gap:20px;align-items:center;padding:8px 28px 20px 0;border-bottom:1px solid var(--border)}
+.profile-avatar{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid var(--gold-light);flex-shrink:0}
+.profile-top h2{font:normal 26px Georgia,serif;margin:5px 0;color:var(--black)}
+.profile-meta{font-size:12px;color:var(--muted)}
+.profile-desc{font-size:13px;color:var(--muted);line-height:1.6;margin:8px 0 0}
+.section{padding-top:20px}
+.section h3{font-size:15px;margin:0 0 7px}
+.section>p{font-size:12px;color:var(--muted);margin:0 0 12px;line-height:1.5}
+.profile-skills{display:flex;flex-wrap:wrap;gap:7px}
+.profile-skills span{background:white;border:1px solid var(--border);border-radius:4px;padding:7px 9px;font-size:12px}
+/* CARROSSEL */
+.carousel{position:relative;background:#e9e4da;border-radius:8px;overflow:hidden}
+.carousel-image{width:100%;height:310px;display:block;object-fit:cover}
+.carousel-arrow{position:absolute;top:50%;transform:translateY(-50%);border:0;background:#191815bb;color:white;width:38px;height:42px;font-size:25px;border-radius:4px}
+.carousel-arrow.prev{left:10px}
+.carousel-arrow.next{right:10px}
+.carousel-caption{padding:9px 12px;font-size:11px;color:var(--muted);background:white}
+.carousel-dots{display:flex;justify-content:center;gap:7px;padding:10px;background:white}
+.carousel-dot{width:8px;height:8px;border:0;border-radius:50%;background:#d1c8b5;padding:0}
+.carousel-dot.active{background:var(--gold)}
+.no-photos{padding:35px 15px;text-align:center;color:var(--muted);font-size:13px}
+.admin-note{display:none;background:#f1e9d7;padding:10px;border-radius:5px;font-size:11px;line-height:1.6;margin-top:10px}
+.admin-on .admin-note{display:block}
+/* CALENDÁRIO */
+.calendar-box{background:white;border:1px solid var(--border);border-radius:7px;padding:14px}
+.calendar-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.calendar-top strong{text-transform:capitalize;font-size:13px}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}
+.weekday{font-size:10px;color:var(--muted);padding:5px 0}
+.day{min-height:35px;border:1px solid transparent;border-radius:4px;background:#f2f0eb;color:#aaa69e;font-size:12px}
+.day.available{background:#e8f2e9;color:#28613a;border-color:#c5dfca;font-weight:bold}
+.day.available.chosen,.day.available:hover{background:var(--green);color:white}
+.day.past{opacity:.35}
+.admin-on .day:not(:disabled){cursor:pointer}
+.admin-on .day.available{outline:1px solid #b0d0b6}
+.calendar-legend{display:flex;flex-wrap:wrap;gap:12px;font-size:10px;color:var(--muted);margin-top:12px}
+.legend-item{display:flex;align-items:center;gap:5px}
+.legend-color{width:10px;height:10px;border-radius:2px}
+.date-message{font-size:12px;color:var(--green);min-height:18px;margin-top:12px}
+.modal-actions{display:flex;gap:9px;margin-top:20px}
+.modal-actions .btn{flex:1}
+.notice{font-size:10px;color:var(--muted);line-height:1.5;margin-top:12px}
+.admin-calendar-note{display:none;color:#85692e;font-size:11px;margin-bottom:9px}
+.admin-on .admin-calendar-note{display:block}
+/* FORMULÁRIO DE EDIÇÃO */
+.editor{display:none;margin-top:20px;border-top:1px solid var(--border);padding-top:20px}
+.editor.visible{display:block}
+.editor h3{margin-bottom:14px}
+.editor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.editor-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+.checkline{display:flex;align-items:center;gap:8px;font-size:12px;margin-top:12px}
+@media(max-width:900px){.team-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.filter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){
+ .header-inner{padding:14px}.logo{font-size:22px}.header-actions{gap:6px}.header-actions .btn{padding:9px 7px;font-size:10px}
+ .intro{padding:28px 16px 20px}.main{padding-left:13px;padding-right:13px}
+ .filter-grid{gap:11px 9px}.filters{padding:14px}.team-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .person-card{padding:17px 9px 12px}.photo-wrap{width:83px;height:83px}.person-card h3{font-size:13px}
+ .tag{font-size:9px;padding:4px 5px}.modal{padding:7px}.modal-content{padding:19px 13px}
+ .profile-top{gap:12px}.profile-avatar{width:70px;height:70px}.profile-top h2{font-size:21px}
+ .carousel-image{height:235px}.day{min-height:31px;font-size:11px}.calendar-box{padding:9px}
+ .selection-bar{padding:11px}.selection-bar .btn{padding:9px;font-size:10px}.editor-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#">OPUS<small>EVENTOS</small></a>
+    <div class="header-actions">
+      <a href="#" id="backLink">← Site principal</a>
+      <button class="btn" id="adminToggle">Administrar equipe</button>
+    </div>
+  </div>
+</header>
+
+<section class="intro">
+ <div class="eyebrow">OPUS EVENTOS</div>
+<h1>Nossa Equipe</h1>
+<p>Conheça nossos profissionais, explore suas habilidades e encontre a equipe ideal para o seu evento.</p>
+</section>
+
+<main class="main">
+  <section class="admin-panel" id="adminPanel">
+    <div class="admin-top">
+      <h2>Administração da equipe</h2>
+      <button class="btn gold" id="addPerson">+ Adicionar profissional</button>
+    </div>
+    <p class="admin-help">
+      Clique em “Editar” no perfil para alterar os dados, as fotos e as habilidades.
+      No calendário do perfil, clique nos dias para marcar ou desmarcar a disponibilidade.
+      As alterações são salvas neste navegador.
+    </p>
+    <div class="editor" id="newEditor"></div>
+    <div class="editor-actions">
+      <button class="btn light" id="exportData">Exportar cópia dos dados</button>
+      <button class="btn light" id="importButton">Importar dados salvos</button>
+      <input id="importFile" type="file" accept=".json,application/json" hidden>
+    </div>
+  </section>
+
+  <section class="filters">
+    <h2>Encontre sua equipe</h2>
+    <div class="filter-grid">
+      <div class="field span2">
+        <label for="search">Nome</label>
+        <input id="search" placeholder="Buscar profissional...">
+      </div>
+      <div class="field">
+        <label for="quantity">Quantidade necessária</label>
+        <select id="quantity">
+          <option value="1">1 profissional</option>
+          <option value="2">2 profissionais</option>
+          <option value="3">3 profissionais</option>
+          <option value="4">4 profissionais</option>
+          <option value="5">5 profissionais</option>
+          <option value="6">6 profissionais</option>
+          <option value="8">8 profissionais</option>
+          <option value="10">10 profissionais</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="gender">Gênero</label>
+        <select id="gender">
+          <option value="">Todos</option>
+          <option>Feminino</option>
+          <option>Masculino</option>
+          <option>Não informado</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="age">Idade</label>
+        <select id="age">
+          <option value="">Todas</option>
+          <option value="18-24">18 a 24 anos</option>
+          <option value="25-34">25 a 34 anos</option>
+          <option value="35-44">35 a 44 anos</option>
+          <option value="45+">45 anos ou mais</option>
+        </select>
+      </div>
+      <div class="field span2">
+        <label for="skill">Habilidade</label>
+        <select id="skill">
+          <option value="">Todas as habilidades</option>
+          <option>Pipoqueira</option>
+          <option>Algodão-doce</option>
+          <option>Garçonete</option>
+          <option>Garçom</option>
+          <option>Bar</option>
+          <option>Distribuição de brindes</option>
+          <option>Recepção</option>
+          <option>Festas infantis</option>
+          <option>Degustação</option>
+          <option>Atendimento ao público</option>
+        </select>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin:13px 0 0">Os filtros podem ser combinados.</p>
+  </section>
+
+  <div class="results-head">
+    <h2>Profissionais</h2>
+    <span id="count"></span>
+  </div>
+  <section class="team-grid" id="teamGrid"></section>
+  <div class="empty" id="empty">Nenhum perfil encontrado. Experimente alterar os filtros.</div>
+
+  <div class="selection-bar" id="selectionBar">
+    <p id="selectionText"></p>
+    <button class="btn gold" id="sendSelection">Solicitar equipe</button>
+  </div>
+</main>
+
+<footer>
+  <strong>OPUS EVENTOS</strong>
+  <p>Atendimento em Curitiba e região metropolitana.</p>
+  <p>© <span id="year"></span> Opus Eventos. Todos os direitos reservados.</p>
+</footer>
+
+<!-- PERFIL COMPLETO -->
+<div class="modal" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileName">
+  <div class="modal-content">
+    <button class="close" id="closeModal" aria-label="Fechar">&times;</button>
+    <div class="profile-top">
+      <img class="profile-avatar" id="profileAvatar" alt="">
+      <div>
+        <div class="eyebrow">Perfil profissional</div>
+        <h2 id="profileName"></h2>
+        <div class="profile-meta" id="profileMeta"></div>
+        <p class="profile-desc" id="profileDesc"></p>
+      </div>
+    </div>
+
+    <section class="section">
+      <h3>Fotos trabalhando</h3>
+      <p>Conheça um pouco do trabalho deste profissional.</p>
+      <div id="carousel"></div>
+      <div class="admin-note">Modo de edição: abra “Editar perfil” abaixo para escolher fotos do computador ou celular.</div>
+    </section>
+
+    <section class="section">
+      <h3>Habilidades</h3>
+      <div class="profile-skills" id="profileSkills"></div>
+    </section>
+
+    <section class="section">
+      <h3>Disponibilidade</h3>
+      <p>As datas verdes estão marcadas como disponíveis.</p>
+      <div class="admin-calendar-note">Modo de edição: clique em qualquer dia futuro para marcar ou desmarcar a disponibilidade. As mudanças são salvas automaticamente.</div>
+      <div class="calendar-box">
+        <div class="calendar-top">
+          <button class="btn light" id="prevMonth" aria-label="Mês anterior">←</button>
+          <strong id="monthTitle"></strong>
+          <button class="btn light" id="nextMonth" aria-label="Próximo mês">→</button>
+        </div>
+        <div class="calendar-grid" id="calendar"></div>
+        <div class="calendar-legend">
+          <span class="legend-item"><span class="legend-color" style="background:#e8f2e9;border:1px solid #c5dfca"></span>Disponível</span>
+          <span class="legend-item"><span class="legend-color" style="background:#f2f0eb"></span>Indisponível</span>
+        </div>
+        <div class="date-message" id="dateMessage"></div>
+      </div>
+    </section>
+
+    <section class="section editor" id="profileEditor">
+      <h3>Editar perfil</h3>
+      <div class="editor-grid">
+        <div class="field"><label for="editName">Nome completo</label><input id="editName"></div>
+        <div class="field"><label for="editRole">Função</label><input id="editRole"></div>
+        <div class="field"><label for="editAge">Idade</label><input id="editAge" type="number" min="18" max="100"></div>
+        <div class="field"><label for="editGender">Gênero</label>
+          <select id="editGender"><option>Feminino</option><option>Masculino</option><option>Não informado</option></select>
+        </div>
+        <div class="field span2"><label for="editPhotoFile">Foto de perfil</label><input id="editPhotoFile" type="file" accept="image/*"><img id="editPhotoPreview" class="upload-preview" alt="Prévia da foto de perfil" hidden><small class="upload-help">Escolha uma foto do computador ou celular. Se não escolher outra, a foto atual será mantida.</small></div>
+        <div class="field span2"><label for="editGalleryFiles">Fotos trabalhando</label><input id="editGalleryFiles" type="file" accept="image/*" multiple><small class="upload-help" id="editGalleryHelp">Adicione até 10 fotos no total. Elas aparecem em um carrossel automático.</small><div id="editGalleryPreview" class="upload-previews"></div></div>
+        <div class="field span2"><label for="editSkills">Habilidades (separadas por vírgula)</label><textarea id="editSkills" placeholder="Pipoqueira, Recepção, Bar"></textarea></div>
+        <div class="field span2"><label for="editDescription">Descrição / experiência</label><textarea id="editDescription"></textarea></div>
+      </div>
+      <div class="editor-actions">
+        <button class="btn gold" id="saveProfile">Salvar alterações</button>
+        <button class="btn light" id="cancelEdit">Cancelar edição</button>
+        <button class="btn danger" id="deleteProfile">Excluir profissional</button>
+      </div>
+    </section>
+
+    <div class="modal-actions">
+      <button class="btn light" id="closeProfileButton">Fechar perfil</button>
+      <button class="btn gold" id="selectPerson">Adicionar à equipe</button>
+    </div>
+    <p class="notice">As datas são controladas manualmente pela equipe. A seleção de um profissional não confirma uma contratação.</p>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/*
+  OPUS EVENTOS
+  Dados guardados em localStorage neste navegador.
+  Faça exportações de backup regularmente.
+*/
+
+const STORAGE_KEY = "opusEquipeDadosV2";
+
+const initialPeople = [
+  {
+    id: 1,
+    name: "Ana Clara",
+    gender: "Feminino",
+    age: 24,
+    role: "Atendente de eventos",
+    photo: "https://randomuser.me/api/portraits/women/44.jpg",
+    gallery: [
+      "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1100&q=80",
+      "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1100&q=80",
+      "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1100&q=80"
+    ],
+    experience: "Experiência em atendimento ao público e apoio a eventos.",
+    skills: ["Pipoqueira", "Algodão-doce", "Festas infantis", "Atendimento ao público"],
+    available: []
+  },
+  {
+    id: 2,
+    name: "Mariana Alves",
+    gender: "Feminino",
+    age: 29,
+    role: "Garçonete",
+    photo: "https://randomuser.me/api/portraits/women/68.jpg",
+    gallery: [
+      "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1100&q=80",
+      "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1100&q=80"
+    ],
+    experience: "Experiência com serviço de salão e recepção de convidados.",
+    skills: ["Garçonete", "Bar", "Recepção", "Atendimento ao público"],
+    available: []
+  },
+  {
+    id: 3,
+    name: "Juliana Martins",
+    gender: "Feminino",
+    age: 32,
+    role: "Promotora de eventos",
+    photo: "https://randomuser.me/api/portraits/women/32.jpg",
+    gallery: [
+      "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1100&q=80",
+      "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1100&q=80"
+    ],
+    experience: "Experiência em ações promocionais e atendimento.",
+    skills: ["Distribuição de brindes", "Degustação", "Recepção"],
+    available: []
+  },
+  {
+    id: 4,
+    name: "Lucas Ferreira",
+    gender: "Masculino",
+    age: 27,
+    role: "Atendente de eventos",
+    photo: "https://randomuser.me/api/portraits/men/32.jpg",
+    gallery: [
+      "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1100&q=80",
+      "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1100&q=80"
+    ],
+    experience: "Experiência em eventos sociais e atendimento a convidados.",
+    skills: ["Garçom", "Bar", "Recepção"],
+    available: []
+  }
+];
+
+let people = loadPeople();
+let selectedPeople = [];
+let currentPersonId = null;
+let selectedDate = null;
+let galleryIndex = 0;
+let galleryTimer = null;
+let calendarMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+let adminMode = false;
+
+const $ = id => document.getElementById(id);
+$("year").textContent = new Date().getFullYear();
+
+function loadPeople() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch (error) {
+    console.warn("Não foi possível ler os dados salvos.", error);
+  }
+  return structuredClone(initialPeople);
+}
+
+function savePeople() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(people));
+    return true;
+  } catch (error) {
+    alert("Não foi possível salvar. Verifique o espaço disponível no navegador.");
+    return false;
+  }
+}
+
+function newId() {
+  return Math.max(0, ...people.map(p => Number(p.id) || 0)) + 1;
+}
+
+function cleanPerson(person) {
+  if (!Array.isArray(person.skills)) person.skills = [];
+  if (!Array.isArray(person.gallery)) person.gallery = [];
+  if (!Array.isArray(person.available)) person.available = [];
+  return person;
+}
+
+function safeImage(img, fallback) {
+  img.onerror = () => {
+    img.onerror = null;
+    img.src = fallback;
+  };
+}
+
+const fallbackImage =
+  "https://placehold.co/500x500/f0eadc/746343?text=Opus+Eventos";
+
+function validImageUrl(url) {
+  if (typeof url !== "string") return false;
+  if (url.startsWith("data:image/")) return true;
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === "https:" || parsed.protocol === "http:";
+  } catch {
+    return false;
+  }
+}
+
+function imageFileToDataUrl(file, maxSide = 1000, quality = 0.75) {
+  return new Promise((resolve, reject) => {
+    if (!file || !file.type.startsWith("image/")) {
+      reject(new Error("Selecione um arquivo de imagem válido."));
+      return;
+    }
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("Não foi possível ler a imagem."));
+    reader.onload = () => {
+      const image = new Image();
+      image.onerror = () => reject(new Error("Não foi possível abrir esta imagem."));
+      image.onload = () => {
+        const scale = Math.min(1, maxSide / Math.max(image.width, image.height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.round(image.width * scale));
+        canvas.height = Math.max(1, Math.round(image.height * scale));
+        canvas.getContext("2d").drawImage(image, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      image.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function previewSelectedImage(inputId, previewId) {
+  const input = $(inputId), preview = $(previewId);
+  if (!input || !preview) return;
+  input.addEventListener("change", () => {
+    const file = input.files && input.files[0];
+    if (!file) {
+      preview.hidden = true;
+      preview.removeAttribute("src");
+      return;
+    }
+    preview.src = URL.createObjectURL(file);
+    preview.hidden = false;
+  });
+}
+
+function previewSelectedImages(inputId, previewId) {
+  const input = $(inputId), host = $(previewId);
+  if (!input || !host) return;
+  input.addEventListener("change", () => {
+    host.innerHTML = "";
+    [...(input.files || [])].slice(0, 10).forEach(file => {
+      const img = document.createElement("img");
+      img.alt = "Prévia de " + file.name;
+      img.src = URL.createObjectURL(file);
+      host.appendChild(img);
+    });
+    if (input.files.length > 10) {
+      const note = document.createElement("small");
+      note.className = "upload-help";
+      note.textContent = "Foram selecionadas " + input.files.length + " fotos.";
+      host.appendChild(note);
+    }
+  });
+}
+
+
+previewSelectedImage("newPhotoFile", "newPhotoPreview");
+previewSelectedImages("newGalleryFiles", "newGalleryPreview");
+previewSelectedImage("editPhotoFile", "editPhotoPreview");
+previewSelectedImages("editGalleryFiles", "editGalleryPreview");
+
+/* ADMINISTRAÇÃO */
+
+$("adminToggle").addEventListener("click", () => {
+  adminMode = !adminMode;
+  document.body.classList.toggle("admin-on", adminMode);
+  $("adminPanel").classList.toggle("visible", adminMode);
+  $("adminToggle").textContent = adminMode
+    ? "Fechar administração"
+    : "Administrar equipe";
+
+  if (!adminMode) $("newEditor").innerHTML = "";
+  renderPeople();
+
+  if (currentPersonId !== null) {
+    renderCalendar();
+    renderCarousel();
+  }
+});
+
+$("addPerson").addEventListener("click", () => {
+  const editor = $("newEditor");
+  editor.innerHTML = `
+    <h3>Novo profissional</h3>
+    <div class="editor-grid">
+      <div class="field"><label>Nome</label><input id="newName" placeholder="Nome completo"></div>
+      <div class="field"><label>Função</label><input id="newRole" placeholder="Ex.: Promotora de eventos"></div>
+      <div class="field"><label>Idade</label><input id="newAge" type="number" min="18" max="100" placeholder="18"></div>
+      <div class="field"><label>Gênero</label><select id="newGender"><option>Feminino</option><option>Masculino</option><option>Não informado</option></select></div>
+      <div class="field span2"><label for="newPhotoFile">Foto de perfil</label><input id="newPhotoFile" type="file" accept="image/*"><img id="newPhotoPreview" class="upload-preview" alt="Prévia da foto de perfil" hidden></div>
+      <div class="field span2"><label for="newGalleryFiles">Fotos trabalhando</label><input id="newGalleryFiles" type="file" accept="image/*" multiple><small class="upload-help">Selecione até 10 fotos de trabalho para o carrossel automático.</small><div id="newGalleryPreview" class="upload-previews"></div></div>
+      <div class="field span2"><label>Habilidades separadas por vírgula</label><textarea id="newSkills" placeholder="Pipoqueira, Recepção, Bar"></textarea></div>
+      <div class="field span2"><label>Experiência / descrição</label><textarea id="newDescription"></textarea></div>
+    </div>
+    <div class="editor-actions">
+      <button class="btn gold" id="createPerson">Cadastrar profissional</button>
+      <button class="btn light" id="cancelNewPerson">Cancelar</button>
+    </div>`;
+
+  editor.classList.add("visible");
+  $("createPerson").addEventListener("click", createPerson);
+  $("cancelNewPerson").addEventListener("click", () => {
+    editor.innerHTML = "";
+    editor.classList.remove("visible");
+  });
+  editor.scrollIntoView({ behavior: "smooth", block: "center" });
+});
+
+function splitList(value) {
+  return value.split(",").map(v => v.trim()).filter(Boolean);
+}
+
+async function createPerson() {
+  const name = $("newName").value.trim();
+  const role = $("newRole").value.trim();
+  const age = Number($("newAge").value);
+  const photoFile = $("newPhotoFile").files[0];
+  const galleryFiles = [...$("newGalleryFiles").files];
+  if (!name || !role || !age || age < 18 || age > 100) {
+    alert("Preencha nome, função e idade válida (18 anos ou mais)."); return;
+  }
+  if (!photoFile) { alert("Escolha uma foto de perfil para esta profissional."); return; }
+  if (galleryFiles.length > 10) { alert("Selecione no máximo 10 fotos de trabalho."); return; }
+  const button = $("createPerson");
+  button.disabled = true; button.textContent = "Salvando fotos...";
+  try {
+    const photo = await imageFileToDataUrl(photoFile, 700, 0.72);
+    const gallery = await Promise.all(galleryFiles.map(file => imageFileToDataUrl(file, 1000, 0.70)));
+    const person = {
+      id: newId(), name, role, age, gender: $("newGender").value, photo, gallery,
+      experience: $("newDescription").value.trim(), skills: splitList($("newSkills").value), available: []
+    };
+    people.push(person);
+    if (!savePeople()) { people.pop(); return; }
+    $("newEditor").innerHTML = "";
+    $("newEditor").classList.remove("visible");
+    renderPeople(); openProfile(person.id);
+  } catch (error) {
+    alert("Não foi possível processar as fotos. Tente imagens menores ou menos fotos.");
+    console.error(error);
+  } finally {
+    const currentButton = $("createPerson");
+    if (currentButton) { currentButton.disabled = false; currentButton.textContent = "Cadastrar profissional"; }
+  }
+}
+
+function renderPeople() {
+  const nameFilter = $("search").value.trim().toLowerCase();
+  const genderFilter = $("gender").value;
+  const ageFilter = $("age").value;
+  const skillFilter = $("skill").value;
+
+  const filtered = people.filter(raw => {
+    const p = cleanPerson(raw);
+    const nameOk = p.name.toLowerCase().includes(nameFilter);
+    const genderOk = !genderFilter || p.gender === genderFilter;
+
+    let ageOk = true;
+    if (ageFilter === "18-24") ageOk = p.age >= 18 && p.age <= 24;
+    if (ageFilter === "25-34") ageOk = p.age >= 25 && p.age <= 34;
+    if (ageFilter === "35-44") ageOk = p.age >= 35 && p.age <= 44;
+    if (ageFilter === "45+") ageOk = p.age >= 45;
+
+    const skillOk = !skillFilter || p.skills.includes(skillFilter);
+    return nameOk && genderOk && ageOk && skillOk;
+  });
+
+  $("teamGrid").innerHTML = "";
+  $("count").textContent = filtered.length +
+    (filtered.length === 1 ? " profissional" : " profissionais");
+  $("empty").style.display = filtered.length ? "none" : "block";
+
+  filtered.forEach(p => {
+    const card = document.createElement("article");
+    card.className = "person-card";
+    if (selectedPeople.includes(p.id)) card.classList.add("selected");
+
+    const wrap = document.createElement("div");
+    wrap.className = "photo-wrap";
+    const photo = document.createElement("img");
+    photo.className = "person-photo";
+    photo.src = p.photo || fallbackImage;
+    photo.alt = "Foto de " + p.name;
+    photo.loading = "lazy";
+    safeImage(photo, fallbackImage);
+
+    const dot = document.createElement("span");
+    dot.className = "status-dot";
+    dot.title = "Consulte as datas no perfil";
+    wrap.append(photo, dot);
+
+    const title = document.createElement("h3");
+    title.textContent = p.name;
+    const role = document.createElement("p");
+    role.className = "role";
+    role.textContent = p.role;
+
+    const tags = document.createElement("div");
+    tags.className = "tags";
+    p.skills.slice(0, 2).forEach(skill => {
+      const tag = document.createElement("span");
+      tag.className = "tag";
+      tag.textContent = skill;
+      tags.appendChild(tag);
+    });
+
+    const buttons = document.createElement("div");
+    buttons.className = "card-buttons";
+    const view = document.createElement("button");
+    view.className = "btn";
+    view.textContent = "Ver perfil";
+    view.addEventListener("click", () => openProfile(p.id));
+    buttons.appendChild(view);
+
+    if (adminMode) {
+      const edit = document.createElement("button");
+      edit.className = "btn light edit-card";
+      edit.textContent = "Editar";
+      edit.addEventListener("click", () => {
+        openProfile(p.id);
+        setTimeout(() => {
+          $("profileEditor").classList.add("visible");
+          $("profileEditor").scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 80);
+      });
+      buttons.appendChild(edit);
+    }
+
+    card.append(wrap, title, role, tags, buttons);
+    $("teamGrid").appendChild(card);
+  });
+
+  renderSelection();
+}
+
+["search", "gender", "age", "skill"].forEach(id => {
+  $(id).addEventListener(id === "search" ? "input" : "change", renderPeople);
+});
+
+/* PERFIL E GALERIA */
+
+function getCurrentPerson() {
+  return people.find(p => p.id === currentPersonId);
+}
+
+function openProfile(id) {
+  currentPersonId = id;
+  selectedDate = null;
+  galleryIndex = 0;
+  calendarMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+
+  const p = getCurrentPerson();
+  if (!p) return;
+
+  $("profileAvatar").src = p.photo || fallbackImage;
+  $("profileAvatar").alt = "Foto de " + p.name;
+  safeImage($("profileAvatar"), fallbackImage);
+
+  $("profileName").textContent = p.name;
+  $("profileMeta").textContent = p.age + " anos · " + p.role;
+  $("profileDesc").textContent = p.experience || "Profissional da equipe Opus Eventos.";
+
+  $("profileSkills").innerHTML = "";
+  p.skills.forEach(skill => {
+    const item = document.createElement("span");
+    item.textContent = skill;
+    $("profileSkills").appendChild(item);
+  });
+
+  $("profileEditor").classList.remove("visible");
+  $("selectPerson").textContent = selectedPeople.includes(id)
+    ? "Remover da equipe"
+    : "Adicionar à equipe";
+
+  fillEditor(p);
+  $("dateMessage").textContent = "";
+  $("profileModal").classList.add("open");
+  document.body.style.overflow = "hidden";
+
+  renderCalendar();
+  renderCarousel();
+}
+
+function fillEditor(p) {
+  $("editName").value = p.name;
+  $("editRole").value = p.role;
+  $("editAge").value = p.age;
+  $("editGender").value = p.gender || "Não informado";
+  $("editPhotoFile").value = "";
+  $("editPhotoPreview").src = p.photo || fallbackImage;
+  $("editPhotoPreview").hidden = false;
+  $("editGalleryFiles").value = "";
+  $("editGalleryPreview").innerHTML = "";
+  $("editGalleryHelp").textContent = (p.gallery || []).length
+    ? "A galeria já tem " + p.gallery.length + " foto(s). As novas serão adicionadas."
+    : "Selecione até 10 fotos de trabalho para o carrossel automático. Elas serão adicionadas à galeria.";
+  $("editSkills").value = (p.skills || []).join(", ");
+  $("editDescription").value = p.experience || "";
+}
+
+function stopCarousel() {
+  if (galleryTimer) clearInterval(galleryTimer);
+  galleryTimer = null;
+}
+
+function renderCarousel() {
+  stopCarousel();
+  const p = getCurrentPerson();
+  if (!p) return;
+
+  const urls = (p.gallery || []).filter(validImageUrl);
+  const host = $("carousel");
+  host.innerHTML = "";
+
+  if (!urls.length) {
+    const empty = document.createElement("div");
+    empty.className = "no-photos";
+    empty.textContent = adminMode
+      ? "Nenhuma foto de trabalho cadastrada. Abra Editar perfil para escolher fotos."
+      : "Este profissional ainda não possui fotos de trabalhos cadastradas.";
+    host.appendChild(empty);
+    return;
+  }
+
+  galleryIndex = ((galleryIndex % urls.length) + urls.length) % urls.length;
+
+  const img = document.createElement("img");
+  img.className = "carousel-image";
+  img.alt = "Foto de trabalho de " + p.name;
+  safeImage(img, fallbackImage);
+
+  const prev = document.createElement("button");
+  prev.className = "carousel-arrow prev";
+  prev.type = "button";
+  prev.textContent = "‹";
+  prev.setAttribute("aria-label", "Foto anterior");
+
+  const next = document.createElement("button");
+  next.className = "carousel-arrow next";
+  next.type = "button";
+  next.textContent = "›";
+  next.setAttribute("aria-label", "Próxima foto");
+
+  const caption = document.createElement("div");
+  caption.className = "carousel-caption";
+
+  const dots = document.createElement("div");
+  dots.className = "carousel-dots";
+
+  function showPhoto(index) {
+    galleryIndex = (index + urls.length) % urls.length;
+    img.src = urls[galleryIndex];
+    caption.textContent = "Foto " + (galleryIndex + 1) + " de " + urls.length;
+    [...dots.children].forEach((dot, i) => {
+      dot.classList.toggle("active", i === galleryIndex);
+    });
+  }
+
+  urls.forEach((url, i) => {
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.className = "carousel-dot";
+    dot.setAttribute("aria-label", "Ver foto " + (i + 1));
+    dot.addEventListener("click", () => showPhoto(i));
+    dots.appendChild(dot);
+  });
+
+  prev.addEventListener("click", () => showPhoto(galleryIndex - 1));
+  next.addEventListener("click", () => showPhoto(galleryIndex + 1));
+
+  host.append(img, prev, next, caption, dots);
+  showPhoto(galleryIndex);
+
+  if (urls.length > 1) {
+    galleryTimer = setInterval(() => {
+      if (!$("profileModal").classList.contains("open")) {
+        stopCarousel();
+        return;
+      }
+      showPhoto(galleryIndex + 1);
+    }, 3500);
+  }
+}
+
+/* SALVAR E EXCLUIR */
+
+$("saveProfile").addEventListener("click", async () => {
+  const p = getCurrentPerson();
+  if (!p) return;
+  const name = $("editName").value.trim();
+  const role = $("editRole").value.trim();
+  const age = Number($("editAge").value);
+  const photoFile = $("editPhotoFile").files[0];
+  const galleryFiles = [...$("editGalleryFiles").files];
+  if (!name || !role || !age || age < 18 || age > 100) {
+    alert("Preencha nome, função e idade válida (18 anos ou mais)."); return;
+  }
+  if (p.gallery.length + galleryFiles.length > 10) { alert("A galeria pode ter no máximo 10 fotos. Este perfil já tem " + p.gallery.length + " foto(s); selecione no máximo " + Math.max(0, 10 - p.gallery.length) + " foto(s) nova(s)."); return; }
+  const button = $("saveProfile");
+  button.disabled = true; button.textContent = "Salvando fotos...";
+  const old = {...p, skills:[...p.skills], gallery:[...p.gallery], available:[...p.available]};
+  try {
+    const newPhoto = photoFile ? await imageFileToDataUrl(photoFile, 700, 0.72) : (p.photo || fallbackImage);
+    const newGalleryPhotos = await Promise.all(galleryFiles.map(file => imageFileToDataUrl(file, 1000, 0.70)));
+    p.name = name; p.role = role; p.age = age; p.gender = $("editGender").value;
+    p.photo = newPhoto; p.gallery = [...(p.gallery || []), ...newGalleryPhotos];
+    p.skills = splitList($("editSkills").value);
+    p.experience = $("editDescription").value.trim();
+    if (!savePeople()) { Object.assign(p, old); return; }
+    $("profileName").textContent = p.name;
+    $("profileMeta").textContent = p.age + " anos · " + p.role;
+    $("profileDesc").textContent = p.experience || "Profissional da equipe Opus Eventos.";
+    $("profileAvatar").src = p.photo; safeImage($("profileAvatar"), fallbackImage);
+    $("profileEditor").classList.remove("visible");
+    $("profileSkills").innerHTML = "";
+    p.skills.forEach(skill => { const el = document.createElement("span"); el.textContent = skill; $("profileSkills").appendChild(el); });
+    renderPeople(); renderCarousel(); fillEditor(p);
+    alert("Perfil atualizado e salvo neste navegador!");
+  } catch (error) {
+    Object.assign(p, old);
+    alert("Não foi possível processar as fotos. Tente imagens menores ou menos fotos.");
+    console.error(error);
+  } finally {
+    button.disabled = false; button.textContent = "Salvar alterações";
+  }
+});
+
+$("deleteProfile").addEventListener("click", () => {
+  const p = getCurrentPerson();
+  if (!p) return;
+
+  if (!confirm("Tem certeza que deseja excluir " + p.name + "?")) return;
+
+  const oldPeople = [...people];
+  people = people.filter(person => person.id !== p.id);
+  selectedPeople = selectedPeople.filter(id => id !== p.id);
+
+  if (!savePeople()) {
+    people = oldPeople;
+    return;
+  }
+
+  closeProfile();
+  renderPeople();
+});
+
+$("cancelEdit").addEventListener("click", () => {
+  const p = getCurrentPerson();
+  if (p) fillEditor(p);
+  $("profileEditor").classList.remove("visible");
+});
+
+/* CALENDÁRIO MANUAL */
+
+function dateKey(year, month, day) {
+  return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+}
+
+function renderCalendar() {
+  const p = getCurrentPerson();
+  if (!p) return;
+
+  const year = calendarMonth.getFullYear();
+  const month = calendarMonth.getMonth();
+
+  $("monthTitle").textContent = calendarMonth.toLocaleDateString("pt-BR", {
+    month: "long",
+    year: "numeric"
+  });
+
+  const calendar = $("calendar");
+  calendar.innerHTML = "";
+
+  ["D", "S", "T", "Q", "Q", "S", "S"].forEach(day => {
+    const el = document.createElement("div");
+    el.className = "weekday";
+    el.textContent = day;
+    calendar.appendChild(el);
+  });
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const days = new Date(year, month + 1, 0).getDate();
+
+  for (let i = 0; i < firstDay; i++) {
+    calendar.appendChild(document.createElement("div"));
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  for (let day = 1; day <= days; day++) {
+    const key = dateKey(year, month, day);
+    const date = new Date(year, month, day);
+    const isPast = date < today;
+    const isAvailable = p.available.includes(key);
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "day";
+    button.textContent = day;
+
+    if (isAvailable) button.classList.add("available");
+    if (selectedDate === key) button.classList.add("chosen");
+    if (isPast) button.classList.add("past");
+
+    if (adminMode) {
+      // No modo de administração, dias passados também podem ser corrigidos.
+      button.disabled = false;
+      button.title = isAvailable
+        ? "Clique para marcar como indisponível"
+        : "Clique para marcar como disponível";
+
+      button.addEventListener("click", () => {
+        const index = p.available.indexOf(key);
+
+        if (index >= 0) {
+          p.available.splice(index, 1);
+        } else {
+          p.available.push(key);
+        }
+
+        p.available.sort();
+        if (savePeople()) {
+          $("dateMessage").textContent = isAvailable
+            ? "Data marcada como indisponível."
+            : "Data marcada como disponível.";
+          renderCalendar();
+          renderPeople();
+        }
+      });
+    } else {
+      button.disabled = isPast || !isAvailable;
+      if (isAvailable && !isPast) {
+        button.title = "Selecionar esta data";
+        button.addEventListener("click", () => {
+          selectedDate = key;
+          const readable = new Date(year, month, day).toLocaleDateString("pt-BR", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric"
+          });
+          $("dateMessage").textContent = "Data selecionada: " + readable +
+            ". A disponibilidade precisa ser confirmada.";
+          renderCalendar();
+        });
+      }
+    }
+
+    calendar.appendChild(button);
+  }
+}
+
+$("prevMonth").addEventListener("click", () => {
+  calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() - 1, 1);
+  selectedDate = null;
+  $("dateMessage").textContent = "";
+  renderCalendar();
+});
+
+$("nextMonth").addEventListener("click", () => {
+  calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1);
+  selectedDate = null;
+  $("dateMessage").textContent = "";
+  renderCalendar();
+});
+
+/* SELEÇÃO PARA ORÇAMENTO */
+
+$("selectPerson").addEventListener("click", () => {
+  const p = getCurrentPerson();
+  if (!p) return;
+
+  if (selectedPeople.includes(p.id)) {
+    selectedPeople = selectedPeople.filter(id => id !== p.id);
+  } else {
+    const limit = Number($("quantity").value);
+    if (selectedPeople.length >= limit) {
+      alert("Você já selecionou a quantidade desejada. Aumente a quantidade ou remova alguém.");
+      return;
+    }
+    selectedPeople.push(p.id);
+  }
+
+  renderPeople();
+  $("selectPerson").textContent = selectedPeople.includes(p.id)
+    ? "Remover da equipe"
+    : "Adicionar à equipe";
+});
+
+$("quantity").addEventListener("change", () => {
+  const limit = Number($("quantity").value);
+  if (selectedPeople.length > limit) {
+    selectedPeople = selectedPeople.slice(0, limit);
+  }
+  renderPeople();
+});
+
+function renderSelection() {
+  const bar = $("selectionBar");
+  bar.style.display = selectedPeople.length ? "flex" : "none";
+
+  $("selectionText").innerHTML = "";
+  const summary = document.createElement("span");
+  summary.textContent = selectedPeople.length + " de " + $("quantity").value +
+    " profissional(is) selecionado(s)";
+  const note = document.createElement("small");
+  note.textContent = "Solicite um orçamento para sua equipe.";
+  $("selectionText").append(summary, note);
+}
+
+$("sendSelection").addEventListener("click", () => {
+  if (!selectedPeople.length) return;
+
+  const list = selectedPeople.map(id => {
+    const p = people.find(person => person.id === id);
+    return p ? `- ${p.name} (${p.role})` : "";
+  }).filter(Boolean).join("\n");
+
+  const date = selectedDate
+    ? "\nData selecionada no perfil: " + selectedDate
+    : "";
+
+  const message =
+    "Olá! Gostaria de solicitar um orçamento com a Opus Eventos.\n\n" +
+    "Quantidade desejada: " + $("quantity").value + "\n\n" +
+    "Profissionais selecionados:\n" + list + date +
+    "\n\nGostaria de confirmar disponibilidade, valores e contratação.";
+
+  // Substitua pelo WhatsApp comercial real da Opus.
+  const WHATSAPP_NUMBER = "5541991519350";
+  window.open(
+    "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message),
+    "_blank",
+    "noopener,noreferrer"
+  );
+});
+
+/* FECHAR MODAL */
+
+function closeProfile() {
+  stopCarousel();
+  $("profileModal").classList.remove("open");
+  document.body.style.overflow = "";
+  currentPersonId = null;
+}
+
+$("closeModal").addEventListener("click", closeProfile);
+$("closeProfileButton").addEventListener("click", closeProfile);
+$("profileModal").addEventListener("click", event => {
+  if (event.target === $("profileModal")) closeProfile();
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeProfile();
+});
+
+/* BACKUP E RESTAURAÇÃO */
+
+$("exportData").addEventListener("click", () => {
+  const file = new Blob([JSON.stringify(people, null, 2)], {
+    type: "application/json"
+  });
+
+  const url = URL.createObjectURL(file);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "opus-equipe-backup.json";
+  link.click();
+  URL.revokeObjectURL(url);
+});
+
+$("importButton").addEventListener("click", () => $("importFile").click());
+
+$("importFile").addEventListener("change", async event => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  try {
+    const parsed = JSON.parse(await file.text());
+    if (!Array.isArray(parsed)) throw new Error("Formato inválido");
+
+    const valid = parsed.every(p =>
+      p && typeof p.name === "string" &&
+      typeof p.role === "string" &&
+      Array.isArray(p.skills) &&
+      Array.isArray(p.gallery) &&
+      Array.isArray(p.available)
+    );
+
+    if (!valid) throw new Error("Os dados não possuem o formato esperado.");
+
+    if (!confirm("Importar substituirá a equipe deste navegador. Deseja continuar?")) {
+      event.target.value = "";
+      return;
+    }
+
+    people = parsed.map(cleanPerson);
+    selectedPeople = [];
+    if (savePeople()) {
+      renderPeople();
+      alert("Equipe importada com sucesso!");
+    }
+  } catch (error) {
+    alert("Não foi possível importar. Confira se selecionou um backup JSON válido.");
+  }
+
+  event.target.value = "";
+});
+
+$("backLink").href = "./index.html";
+
+renderPeople();
+</script>
+</body>
+</html>
