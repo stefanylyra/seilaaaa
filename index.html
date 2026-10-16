@@ -315,7 +315,7 @@ footer strong{font:18px Georgia,serif;letter-spacing:2px;color:var(--gold-light)
           <select id="editGender"><option>Feminino</option><option>Masculino</option><option>Não informado</option></select>
         </div>
         <div class="field span2"><label for="editPhotoFile">Foto de perfil</label><input id="editPhotoFile" type="file" accept="image/*"><img id="editPhotoPreview" class="upload-preview" alt="Prévia da foto de perfil" hidden><small class="upload-help">Escolha uma foto do computador ou celular. Se não escolher outra, a foto atual será mantida.</small></div>
-        <div class="field span2"><label for="editGalleryFiles">Fotos trabalhando</label><input id="editGalleryFiles" type="file" accept="image/*" multiple><small class="upload-help" id="editGalleryHelp">As fotos novas serão adicionadas à galeria atual.</small><div id="editGalleryPreview" class="upload-previews"></div></div>
+        <div class="field span2"><label for="editGalleryFiles">Fotos trabalhando</label><input id="editGalleryFiles" type="file" accept="image/*" multiple><small class="upload-help" id="editGalleryHelp">Adicione até 10 fotos no total. Elas aparecem em um carrossel automático.</small><div id="editGalleryPreview" class="upload-previews"></div></div>
         <div class="field span2"><label for="editSkills">Habilidades (separadas por vírgula)</label><textarea id="editSkills" placeholder="Pipoqueira, Recepção, Bar"></textarea></div>
         <div class="field span2"><label for="editDescription">Descrição / experiência</label><textarea id="editDescription"></textarea></div>
       </div>
@@ -521,13 +521,13 @@ function previewSelectedImages(inputId, previewId) {
   if (!input || !host) return;
   input.addEventListener("change", () => {
     host.innerHTML = "";
-    [...(input.files || [])].slice(0, 12).forEach(file => {
+    [...(input.files || [])].slice(0, 10).forEach(file => {
       const img = document.createElement("img");
       img.alt = "Prévia de " + file.name;
       img.src = URL.createObjectURL(file);
       host.appendChild(img);
     });
-    if (input.files.length > 12) {
+    if (input.files.length > 10) {
       const note = document.createElement("small");
       note.className = "upload-help";
       note.textContent = "Foram selecionadas " + input.files.length + " fotos.";
@@ -571,7 +571,7 @@ $("addPerson").addEventListener("click", () => {
       <div class="field"><label>Idade</label><input id="newAge" type="number" min="18" max="100" placeholder="18"></div>
       <div class="field"><label>Gênero</label><select id="newGender"><option>Feminino</option><option>Masculino</option><option>Não informado</option></select></div>
       <div class="field span2"><label for="newPhotoFile">Foto de perfil</label><input id="newPhotoFile" type="file" accept="image/*"><img id="newPhotoPreview" class="upload-preview" alt="Prévia da foto de perfil" hidden></div>
-      <div class="field span2"><label for="newGalleryFiles">Fotos trabalhando</label><input id="newGalleryFiles" type="file" accept="image/*" multiple><small class="upload-help">Você pode selecionar várias fotos de uma vez.</small><div id="newGalleryPreview" class="upload-previews"></div></div>
+      <div class="field span2"><label for="newGalleryFiles">Fotos trabalhando</label><input id="newGalleryFiles" type="file" accept="image/*" multiple><small class="upload-help">Selecione até 10 fotos de trabalho para o carrossel automático.</small><div id="newGalleryPreview" class="upload-previews"></div></div>
       <div class="field span2"><label>Habilidades separadas por vírgula</label><textarea id="newSkills" placeholder="Pipoqueira, Recepção, Bar"></textarea></div>
       <div class="field span2"><label>Experiência / descrição</label><textarea id="newDescription"></textarea></div>
     </div>
@@ -603,7 +603,7 @@ async function createPerson() {
     alert("Preencha nome, função e idade válida (18 anos ou mais)."); return;
   }
   if (!photoFile) { alert("Escolha uma foto de perfil para esta profissional."); return; }
-  if (galleryFiles.length > 12) { alert("Selecione no máximo 12 fotos de trabalho por vez."); return; }
+  if (galleryFiles.length > 10) { alert("Selecione no máximo 10 fotos de trabalho."); return; }
   const button = $("createPerson");
   button.disabled = true; button.textContent = "Salvando fotos...";
   try {
@@ -776,7 +776,7 @@ function fillEditor(p) {
   $("editGalleryPreview").innerHTML = "";
   $("editGalleryHelp").textContent = (p.gallery || []).length
     ? "A galeria já tem " + p.gallery.length + " foto(s). As novas serão adicionadas."
-    : "Você pode selecionar várias fotos de uma vez. Elas serão adicionadas à galeria.";
+    : "Selecione até 10 fotos de trabalho para o carrossel automático. Elas serão adicionadas à galeria.";
   $("editSkills").value = (p.skills || []).join(", ");
   $("editDescription").value = p.experience || "";
 }
@@ -878,7 +878,7 @@ $("saveProfile").addEventListener("click", async () => {
   if (!name || !role || !age || age < 18 || age > 100) {
     alert("Preencha nome, função e idade válida (18 anos ou mais)."); return;
   }
-  if (galleryFiles.length > 12) { alert("Selecione no máximo 12 fotos novas por vez."); return; }
+  if (p.gallery.length + galleryFiles.length > 10) { alert("A galeria pode ter no máximo 10 fotos. Este perfil já tem " + p.gallery.length + " foto(s); selecione no máximo " + Math.max(0, 10 - p.gallery.length) + " foto(s) nova(s)."); return; }
   const button = $("saveProfile");
   button.disabled = true; button.textContent = "Salvando fotos...";
   const old = {...p, skills:[...p.skills], gallery:[...p.gallery], available:[...p.available]};
